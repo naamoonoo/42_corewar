@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   in_add.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 18:11:18 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/08 18:16:50 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/09 01:43:55 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/corewar.h"
-
-#define BADREG(R) R < 0 || R > REG_NUMBER
-#define UNUSED(X) (void)X
 
 void		in_add(t_vm *vm, t_process *process)
 {
@@ -21,7 +18,7 @@ void		in_add(t_vm *vm, t_process *process)
 	int		reg1;
 	int		reg2;
 	int		reg3;
-	int		sum;
+	int		res;
 
 	UNUSED(vm);
 	ptr = process->pc->next;
@@ -32,7 +29,7 @@ void		in_add(t_vm *vm, t_process *process)
 	;
 	if (BADREG(reg1) || BADREG(reg2) || BADREG(reg3))
 		return ;
-	sum = process->registers[reg1] + process->registers[reg2];
-	process->registers[reg3] = sum;
-	process->carry = (sum == 0);
+	res = process->registers[reg1] + process->registers[reg2];
+	process->registers[reg3] = res;
+	process->carry = (res == 0);
 }

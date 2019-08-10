@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/05 13:12:16 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/08 21:32:30 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/09 01:10:52 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # define TRUE 1
 # define AARON 1
 # define AWESOME 1
+# define BADREG(R) R < 0 || R > REG_NUMBER
+# define UNUSED(X) (void)X
+
 
 # include <stdlib.h>
 # include <stdio.h>
