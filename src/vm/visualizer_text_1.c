@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   in_ld.c                                            :+:      :+:    :+:   */
+/*   visualizer_text_1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/11 20:24:39 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/13 21:23:17 by nwhitlow         ###   ########.fr       */
+/*   Created: 2019/08/13 21:02:31 by nwhitlow          #+#    #+#             */
+/*   Updated: 2019/08/13 21:10:07 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/corewar.h"
 
-void	in_ld(t_vm *vm, t_process *process, t_visualizer *gv)
+void	visualizer_text_init(void *data)
 {
-	t_arg_list	*args;
-	int			value;
+	ft_printf("init\n");
+	UNUSED(data);
+}
 
-	UNUSED(vm);
-	args = decode_arg_list(g_op_tab[1], process, 1);
-	if (args == NULL)
-		return ;
-	value = arg_list_read(args, 0, gv, process);
-	process->carry = (value == 0);
-	arg_list_write(args, 1, value, gv, process);
-	free(args);
+void	visualizer_text_instruction_read(void *data, t_mem *address)
+{
+	ft_printf("instruction %d read at address %p\n", address->data, address);
+	UNUSED(data);
+}
+
+void	visualizer_text_instruction_fired(void *data, t_mem *address)
+{
+	ft_printf("instruction fired at address %p\n", address);
+	UNUSED(data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/05 13:12:16 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/09 01:10:52 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/13 21:22:54 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@
 # define TRUE 1
 # define AARON 1
 # define AWESOME 1
+
 # define BADREG(R) R < 0 || R > REG_NUMBER
 # define UNUSED(X) (void)X
-
+# define MAX_OPS 16
 
 # include <stdlib.h>
 # include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
 
 # include "../include/op.h"
 # include "../libft/libft.h"
@@ -36,15 +39,36 @@ typedef struct			s_mem
 
 typedef struct s_process	t_process;
 
+typedef struct			s_champion
+{
+	int					number;
+	char				*name;
+	unsigned int		size;
+	char				*comment;
+	char				bytecode[CHAMP_MAX_SIZE];
+}						t_champion;
+
+typedef struct s_visualizer	t_visualizer;
+
 typedef struct			s_vm
 {
+	int					num_champions;
+	t_champion			*champions[MAX_PLAYERS];
+	t_mem				*memory;
 	struct s_process	*p_list;
-	struct s_process	*last_alive;
+	int					last_alive;
+	int					lives_this_round;
+	int					rounds_since_decrease;
 	int					cycles_to_die;
 	int					delta;
+	int					dump;
+	int					dump_after;
+	int					total_cycles;
+	t_visualizer		*gv;
+	int					total_processes;
 }						t_vm;
 
-typedef	void			(*t_instruction)(t_vm *vm, t_process *process);
+typedef	void			(*t_instruction)(t_vm *vm, t_process *process, t_visualizer *gv);
 
 struct					s_process
 {
@@ -56,40 +80,91 @@ struct					s_process
 	int					alive;
 	t_process			*next;
 	int					cycles_to_wait;
+	t_champion			*owner;
 };
 
+struct					s_visualizer
+{
+	void				*data;
+	t_mem				*mem_start;
+	void				(*init)(void *gv_data);
+	void				(*instruction_read)(void *gv_data, t_mem *address);
+	void				(*instruction_fired)(void *gv_data, t_mem *address);
+	void				(*process_lived)(void *gv_data, t_process *process);
+	void				(*memory_read)(void *gv_data, t_mem *address, int value, t_process *process);
+	void				(*memory_written)(void *gv_data, t_mem *address, int value, t_process *process);
+	void				(*update_misc)(void *gv_data, t_vm *vm);
+};
+
+typedef struct			s_arg_list
+{
+	t_arg_type			arg_types[4];
+	void				*args[4];
+}						t_arg_list;
+
 short					mem_read_ind(t_mem *ptr);
-int						mem_read_dir(t_mem *ptr);
+int						mem_read_dir_silent(t_mem *ptr);
+int						mem_read_dir(t_mem *ptr, t_visualizer *gv, t_process *p);
 void					mem_write_ind(t_mem *ptr, short value);
-void					mem_write_dir(t_mem *ptr, int value);
+void					mem_write_dir(t_mem *ptr, int value, t_visualizer *gv, t_process *p);
 t_mem					*mem_ptr_add(t_mem *ptr, int offset);
 
 t_mem					*mem_block_create(unsigned int size);
 void					mem_block_free(t_mem *mem_block);
+void					mem_dump(t_mem *mem);
+void					mem_write_from_buffer(t_mem *mem,
+								char *buff, unsigned int size);
 
 t_process				*process_new(int pid, t_mem *pc);
+void					process_prepare_instruction(t_process *process, t_visualizer *gv);
 
-void					in_live(t_vm *vm, t_process *process);
-void					in_ld(t_vm *vm, t_process *process);
-void					in_st(t_vm *vm, t_process *process);
-void					in_add(t_vm *vm, t_process *process);
-void					in_sub(t_vm *vm, t_process *process);
-void					in_and(t_vm *vm, t_process *process);
-void					in_or(t_vm *vm, t_process *process);
-void					in_xor(t_vm *vm, t_process *process);
-void					in_zjmp(t_vm *vm, t_process *process);
-void					in_ldi(t_vm *vm, t_process *process);
-//void					in_sti(t_vm *vm, t_process *process);
-void					in_fork(t_vm *vm, t_process *process);
-void					in_lld(t_vm *vm, t_process *process);
-void					in_lldi(t_vm *vm, t_process *process);
-void					in_lfork(t_vm *vm, t_process *process);
-//void					in_aff(t_vm *vm, t_process *process);
+t_champion				*read_champion_from_file(char *file);
+void					free_champion(t_champion *champ);
+
+char					*vm_get_champ_name(t_vm *vm, int champ_id);
+t_vm					*vm_new();
+int						vm_add_champions(t_vm *vm, t_arrlst *champions);
+void					vm_free(t_vm *vm);
+
+int						valid_arg_list(t_op op, t_arg_list *args);
+t_arg_list				*decode_arg_list(t_op op, t_process *caller,
+								int uses_idx_mod);
+int						arg_list_read(t_arg_list *args, int n, t_visualizer *gv, t_process *p);
+void					arg_list_write(t_arg_list *args, int n, int value, t_visualizer *gv, t_process *p);
+void					arg_list_print(t_arg_list *args);
+
+void					in_live(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_ld(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_st(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_add(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_sub(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_and(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_or(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_xor(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_zjmp(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_ldi(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_sti(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_fork(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_lld(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_lldi(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_lfork(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_aff(t_vm *vm, t_process *process, t_visualizer *gv);
 
 void					push_to_stack(t_process **stack, t_process *process);
 void					purge_list(t_process **p_list);
-void					decriment_cycles(t_vm *vm, t_process **process, int cycle_decriment);
-int						get_min_cycles_to_wait(t_process *p_list, int cycle_to_die);
-t_process				*scheduler(t_vm *vm);
+void					decriment_cycles(t_vm *vm, t_process **process,
+								int cycle_decriment);
+int						get_min_cycles_to_wait(t_process *p_list,
+								int cycle_to_die);
+int						scheduler(t_vm *vm);
+
+int						read_arg_number(int argc, char **argv, int *i,
+								t_vm *vm);
+t_arrlst				*build_champions(int argc, char **argv, int i);
+
+void					visualizer_text_init(void *data);
+void					visualizer_text_instruction_read(void *data, t_mem *address);
+void					visualizer_text_instruction_fired(void *data, t_mem *address);
+t_visualizer			*visualizer_text_new();
 
 #endif

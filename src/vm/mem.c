@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/05 13:15:33 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/08 14:53:03 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/13 21:21:18 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ short	mem_read_ind(t_mem *ptr)
 
 	*output = ptr->next->data;
 	*(output + 1) = ptr->data;
-	return *((short *)output);
+	return (*((short *)output));
 }
 
-int		mem_read_dir(t_mem *ptr)
+int		mem_read_dir_silent(t_mem *ptr)
 {
 	char	output[4];
 	int		i;
@@ -33,7 +33,27 @@ int		mem_read_dir(t_mem *ptr)
 		ptr = ptr->next;
 		i++;
 	}
-	return *((int *)output);
+	return (*((int *)output));
+}
+
+int		mem_read_dir(t_mem *ptr, t_visualizer *gv, t_process *p)
+{
+	char	output[4];
+	int		i;
+	int		value;
+	t_mem	*hold;
+
+	hold = ptr;
+	i = 0;
+	while (i < 4)
+	{
+		*(output + 3 - i) = ptr->data;
+		ptr = ptr->next;
+		i++;
+	}
+	value = *((int *)output);
+	(*gv->memory_read)(gv->data, hold, value, p);
+	return (value);
 }
 
 void	mem_write_ind(t_mem *ptr, short value)
@@ -45,11 +65,12 @@ void	mem_write_ind(t_mem *ptr, short value)
 	ptr->next->data = input[0];
 }
 
-void	mem_write_dir(t_mem *ptr, int value)
+void	mem_write_dir(t_mem *ptr, int value, t_visualizer *gv, t_process *p)
 {
 	char	*input;
 	int		i;
 
+	(*gv->memory_written)(gv->data, ptr, value, p);
 	input = (void *)&value;
 	i = 0;
 	while (i < 4)

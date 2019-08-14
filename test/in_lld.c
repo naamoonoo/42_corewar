@@ -32,6 +32,7 @@ START_TEST (test_in_lld)
 	ck_assert_int_eq(process->carry, FALSE);
 
 	// lld %0 r5
+	process->pc = mem;
 	WRITE_TO_MEM(mem, ((char[7]) {0x02, 0x90, 0x00, 0x00, 0x00, 0x00, 0x05}), 7);
 	in_lld(NULL, process);
 	ck_assert_int_eq(process->registers[5], 0x00000000);
@@ -41,7 +42,7 @@ START_TEST (test_in_lld)
 	process->pc = mem;
 	WRITE_TO_MEM(mem, ((char[9]) {0x02, 0xD0, 0x00, 0x05, 0x09, 0xFE, 0xDC, 0xBA, 0x98}), 9);
 	in_lld(NULL, process);
-	ck_assert_int_eq(process->registers[9], 0xFEDCBA98);
+	ck_assert_int_eq(process->registers[9], (int) 0xFEDCBA98);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	// lld IDX_MOD+5 r9 (x89ABCDEF)
@@ -51,7 +52,7 @@ START_TEST (test_in_lld)
 	t_mem *ptr = mem_ptr_add(mem, IDX_MOD + 5);
 	mem_write_dir(ptr, 0x89ABCDEF);
 	in_lld(NULL, process);
-	ck_assert_int_eq(process->registers[9], 0x89ABCDEF);
+	ck_assert_int_eq(process->registers[9], (int) 0x89ABCDEF);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	// (x0FD24B96) lld -4 r12

@@ -1,21 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   in_and.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/11 20:25:05 by nwhitlow          #+#    #+#             */
+/*   Updated: 2019/08/13 21:24:49 by nwhitlow         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/corewar.h"
 
-void	in_and(t_vm *vm, t_process *process)
+void	in_and(t_vm *vm, t_process *process, t_visualizer *gv)
 {
-	t_mem	*ptr;
-	int		reg1;
-	int		reg2;
-	int		reg3;
+	t_arg_list	*args;
+	int			result;
 
 	UNUSED(vm);
-	ptr = process->pc->next;
-	reg1 = ptr->data;
-	ptr = ptr->next;
-	reg2 = ptr->data;
-	reg3 = ptr->next->data;
-	;
-	if (BADREG(reg1) || BADREG(reg2) || BADREG(reg3))
+	args = decode_arg_list(g_op_tab[5], process, 0);
+	if (args == NULL)
 		return ;
-	reg3 = reg1 & reg2;
-	process->carry = (reg3 == 0);
+	result = arg_list_read(args, 0, gv, process) & arg_list_read(args, 1, gv, process);
+	process->carry = (result == 0);
+	arg_list_write(args, 2, result, gv, process);
+	free(args);
 }

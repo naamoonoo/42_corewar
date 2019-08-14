@@ -6,11 +6,37 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/07 18:43:12 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/07 18:48:32 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/11 20:32:35 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/corewar.h"
+
+void	mem_dump(t_mem *mem)
+{
+	t_mem	*ptr;
+	int		len;
+
+	ptr = mem;
+	len = 0;
+	while (TRUE)
+	{
+		len++;
+		if (ptr->next == mem)
+		{
+			ft_printf("%.2hhX\n", ptr->data);
+			break ;
+		}
+		else if (len == 32)
+		{
+			ft_printf("%.2hhX\n", ptr->data);
+			len = 0;
+		}
+		else
+			ft_printf("%.2hhX ", ptr->data);
+		ptr = ptr->next;
+	}
+}
 
 t_mem	*mem_block_create(unsigned int size)
 {
@@ -38,4 +64,17 @@ t_mem	*mem_block_create(unsigned int size)
 void	mem_block_free(t_mem *mem_block)
 {
 	free(mem_block);
+}
+
+void	mem_write_from_buffer(t_mem *mem, char *buff, unsigned int size)
+{
+	unsigned int i;
+
+	i = 0;
+	while (i < size)
+	{
+		mem->data = buff[i];
+		mem = mem->next;
+		i++;
+	}
 }

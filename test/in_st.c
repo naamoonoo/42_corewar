@@ -25,19 +25,19 @@ START_TEST (test_in_st)
 	process->registers[7] = 0x01234567;
 	in_st(NULL, process);
 	ck_assert_int_eq(mem->next->data, 0x01);
-	ck_assert_int_eq(mem->next->next->data, 0x12);
-	ck_assert_int_eq(mem->next->next->next->data, 0x34);
-	ck_assert_int_eq(mem->next->next->next->next->data, 0x56);
+	ck_assert_int_eq(mem->next->next->data, 0x23);
+	ck_assert_int_eq(mem->next->next->next->data, 0x45);
+	ck_assert_int_eq(mem->next->next->next->next->data, 0x67);
 
 	// st r4 -2
 	process->pc = mem->next->next;
 	WRITE_TO_MEM(mem, ((char[7]) {0, 0, 0x03, 0x70, 0x04, 0xFF, 0xFE}), 7);
 	process->registers[4] = 0xFEDCBA98;
 	in_st(NULL, process);
-	ck_assert_int_eq(mem->data, 0xFE);
-	ck_assert_int_eq(mem->next->data, 0xDC);
-	ck_assert_int_eq(mem->next->next->data, 0xBA);
-	ck_assert_int_eq(mem->next->next->next->data, 0x98);
+	ck_assert_int_eq(mem->data, (char) 0xFE);
+	ck_assert_int_eq(mem->next->data, (char) 0xDC);
+	ck_assert_int_eq(mem->next->next->data, (char) 0xBA);
+	ck_assert_int_eq(mem->next->next->next->data, (char) 0x98);
 
 	// st r7 IDX_MOD+1
 	process->pc = mem;
@@ -56,10 +56,10 @@ START_TEST (test_in_st)
 	mem_write_ind(mem->next->next->next->next->next, 0 - IDX_MOD - 2);
 	process->registers[4] = 0x89ABCDEF;
 	in_st(NULL, process);
-	ck_assert_int_eq(mem->data, 0xFE);
-	ck_assert_int_eq(mem->next->data, 0xDC);
-	ck_assert_int_eq(mem->next->next->data, 0xBA);
-	ck_assert_int_eq(mem->next->next->next->data, 0x98);
+	ck_assert_int_eq(mem->data, (char) 0x89);
+	ck_assert_int_eq(mem->next->data, (char) 0xAB);
+	ck_assert_int_eq(mem->next->next->data, (char) 0xCD);
+	ck_assert_int_eq(mem->next->next->next->data, (char) 0xEF);
 }
 END_TEST
 

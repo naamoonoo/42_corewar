@@ -60,7 +60,7 @@ START_TEST (test_in_lldi)
 	t_mem *ptr = mem_ptr_add(mem, IDX_MOD + 5);
 	mem_write_dir(ptr, 0x9751E05F);
 	in_lldi(NULL, process);
-	ck_assert_int_eq(process->registers[6], 0x9751E05F);
+	ck_assert_int_eq(process->registers[6], (int) 0x9751E05F);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	// lldi %x01AD %xFE5A r7
@@ -68,7 +68,7 @@ START_TEST (test_in_lldi)
 	process->pc = mem;
 	WRITE_TO_MEM(mem, ((char[11]) {0x0A, 0xA4, 0x01, 0xAD, 0xFE, 0x5A, 0x07, 0xBC, 0x45, 0x58, 0x23}), 11);
 	in_lldi(NULL, process);
-	ck_assert_int_eq(process->registers[7], 0xBC455823);
+	ck_assert_int_eq(process->registers[7], (int) 0xBC455823);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	// lldi %3 r8 r9
@@ -85,14 +85,14 @@ START_TEST (test_in_lldi)
 	process->pc = mem->next->next->next->next;
 	WRITE_TO_MEM(mem, ((char[15]) {0xD9, 0x67, 0xF4, 0x60, 0x0A, 0xE4, 0x00, 0x07, 0x00, 0x01, 0x0A, 0xFF, 0xFF, 0xFF, 0xFB}), 15);
 	in_lldi(NULL, process);
-	ck_assert_int_eq(process->registers[10], 0xD967F460);
+	ck_assert_int_eq(process->registers[10], (int) 0xD967F460);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	// lldi -1 r11 r12
 	// 369808639 -369808635 = -4
 	process->pc = mem->next->next->next->next;
 	WRITE_TO_MEM(mem, ((char[10]) {0x50, 0x49, 0x6B, 0x16, 0x0A, 0xD4, 0xFF, 0xFF, 0x0B, 0x0C}), 10);
-	process->registers[11] = 369808635;
+	process->registers[11] = -369808643;
 	in_lldi(NULL, process);
 	ck_assert_int_eq(process->registers[12], 0x50496B16);
 	ck_assert_int_eq(process->carry, FALSE);

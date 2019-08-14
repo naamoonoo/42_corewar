@@ -10,9 +10,10 @@ START_TEST (test_in_add)
 
 	mem = mem_block_create(4);
 	mem->data = 0x04;
-	mem->next->data = 0x01;
-	mem->next->next->data = 0x02;
-	mem->next->next->next->data = 0x03;
+	mem->next->data = 0x54;
+	mem->next->next->data = 0x01;
+	mem->next->next->next->data = 0x02;
+	mem->next->next->next->next->data = 0x03;
 	process = process_new(1, mem);
 
 	process->registers[1] = 1;
@@ -23,25 +24,29 @@ START_TEST (test_in_add)
 
 	process->registers[1] = -1;
 	process->registers[2] = -1;
+	process->pc = mem;
 	in_add(NULL, process);
 	ck_assert_int_eq(process->registers[3], -2);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	process->registers[1] = -1;
 	process->registers[2] = 1;
+	process->pc = mem;
 	in_add(NULL, process);
 	ck_assert_int_eq(process->registers[3], 0);
 	ck_assert_int_eq(process->carry, TRUE);
 
-	mem->next->data = 0x07;
 	mem->next->next->data = 0x07;
 	mem->next->next->next->data = 0x07;
+	mem->next->next->next->next->data = 0x07;
 	process->registers[7] = INT_MAX;
+	process->pc = mem;
 	in_add(NULL, process);
 	ck_assert_int_eq(process->registers[7], -2);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	mem->next->data = 0xFF;
+	process->pc = mem;
 	in_add(NULL, process);
 	ck_assert_int_eq(process->registers[7], -2);
 	ck_assert_int_eq(process->carry, FALSE);

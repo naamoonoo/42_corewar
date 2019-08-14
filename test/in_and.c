@@ -20,6 +20,7 @@ START_TEST (test_in_and)
 	ck_assert_int_eq(process->carry, FALSE);
 
 	// and r1 r2 r3
+	process->pc = mem;
 	WRITE_TO_MEM(mem, ((char[5]) {0x06, 0x54, 0x01, 0x02, 0x03}), 5);
 	process->registers[1] = 0x01234567;
 	process->registers[2] = 0xFEDCBA98;
@@ -46,7 +47,7 @@ START_TEST (test_in_and)
 	process->pc = mem;
 	WRITE_TO_MEM(mem, ((char[11]) {0x06, 0xA4, 0xAA, 0xAA, 0xAA, 0xAA, 0x89, 0xAB, 0xCD, 0xEF, 0x05}), 11);
 	in_and(NULL, process);
-	ck_assert_int_eq(process->registers[5], 0x88A888A8);
+	ck_assert_int_eq(process->registers[5], (int) 0x88AA88AA);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	// and 7 11 r12

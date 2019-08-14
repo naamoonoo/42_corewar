@@ -33,7 +33,7 @@ START_TEST (test_in_lfork)
 	ck_assert_int_ne(child->pid, 1);
 	ck_assert_int_eq(child->registers[1], -1);
 	ck_assert_int_eq(child->registers[7], 42);
-	ck_assert_int_eq(child->registers[REG_NUMBER], 0x89ABCDEF);
+	ck_assert_int_eq(child->registers[REG_NUMBER], (int) 0x89ABCDEF);
 	ck_assert_int_eq(child->carry, 1);
 	ck_assert_ptr_eq(child->pc, mem->next->next->next);
 	ck_assert_int_eq(child->alive, TRUE);
@@ -53,6 +53,7 @@ START_TEST (test_in_lfork)
 	ck_assert_ptr_eq(grandchild->pc, mem);
 
 	mem_write_ind(mem->next, IDX_MOD);
+	parent->pc = mem;
 	in_lfork(vm, parent);
 	ck_assert_ptr_eq(parent->next, child);
 	ck_assert_ptr_eq(child->next, grandchild);

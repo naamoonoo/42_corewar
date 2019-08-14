@@ -1,23 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   in_sub.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/11 20:26:42 by nwhitlow          #+#    #+#             */
+/*   Updated: 2019/08/13 21:24:20 by nwhitlow         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/corewar.h"
 
-void	in_sub(t_vm *vm, t_process *process)
+void	in_sub(t_vm *vm, t_process *process, t_visualizer *gv)
 {
-	t_mem	*ptr;
-	int		reg1;
-	int		reg2;
-	int		reg3;
-	int		res;
+	t_arg_list	*args;
+	int			diff;
 
 	UNUSED(vm);
-	ptr = process->pc->next;
-	reg1 = ptr->data;
-	ptr = ptr->next;
-	reg2 = ptr->data;
-	reg3 = ptr->next->data;
-	;
-	if (BADREG(reg1) || BADREG(reg2) || BADREG(reg3))
+	args = decode_arg_list(g_op_tab[4], process, 1);
+	if (args == NULL)
 		return ;
-	res = process->registers[reg1] - process->registers[reg2];
-	process->registers[reg3] = res;
-	process->carry = (res == 0);
+	diff = arg_list_read(args, 0, gv, process) - arg_list_read(args, 1, gv, process);
+	process->carry = (diff == 0);
+	arg_list_write(args, 2, diff, gv, process);
+	free(args);
 }

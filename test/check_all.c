@@ -17,12 +17,13 @@ TCase *in_or_tcase();
 TCase *in_xor_tcase();
 TCase *in_zjmp_tcase();
 TCase *in_ldi_tcase();
-//TCase *in_sti_tcase();
+TCase *in_sti_tcase();
 TCase *in_fork_tcase();
 TCase *in_lld_tcase();
 TCase *in_lldi_tcase();
 TCase *in_lfork_tcase();
 //TCase *in_aff_tcase();
+TCase *decode_arg_list_tcase();
 
 int main()
 {
@@ -30,10 +31,11 @@ int main()
 	Suite *s;
 	SRunner *runner;
 
-	s = suite_create("Suite");
+	s = suite_create("VM");
 	suite_add_tcase(s, mem_tcase());
 	suite_add_tcase(s, mem_block_tcase());
 	suite_add_tcase(s, process_tcase());
+	suite_add_tcase(s, decode_arg_list_tcase());
 	suite_add_tcase(s, in_live_tcase());
 	suite_add_tcase(s, in_ld_tcase());
 	suite_add_tcase(s, in_st_tcase());
@@ -44,7 +46,7 @@ int main()
 	suite_add_tcase(s, in_xor_tcase());
 	suite_add_tcase(s, in_zjmp_tcase());
 	suite_add_tcase(s, in_ldi_tcase());
-//	suite_add_tcase(s, in_sti_tcase());
+	suite_add_tcase(s, in_sti_tcase());
 	suite_add_tcase(s, in_fork_tcase());
 	suite_add_tcase(s, in_lld_tcase());
 	suite_add_tcase(s, in_lldi_tcase());

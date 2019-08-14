@@ -8,7 +8,7 @@ void	debug_instruction(t_vm *vm, t_process *process)
 {
 	process->instruction = &debug_instruction;
 	process->cycles_to_wait = 50;
-	vm->last_alive = process;
+	vm->last_alive = process->pid;
 	process->alive = 1;
 	g_process_calls[process->pid]++;
 }
@@ -55,13 +55,6 @@ START_TEST (test_purge_list)
 		iter = iter->next;
 		i++;
 	}
-	// I added the next three lines because the debug_instruction was never called
-	// to delete anything during this test
-	// //////////////////////////////////
-	p2->alive = 0;
-	p3->alive = 0;
-	p6->alive = 0;
-	/////////////////////////////////
 	ck_assert_str_eq(list_str, "236");
 	ck_assert_int_eq(p2->alive, 0);
 	ck_assert_int_eq(p3->alive, 0);
@@ -148,8 +141,9 @@ START_TEST (scheduler_main_test)
 	for (int i = 1; i < 10; i++)
 		g_process_calls[i] = 0;
 
-	t_process *last_alive = scheduler(vm);
-	ck_assert_ptr_eq(last_alive, p8);
+	int status = scheduler(vm);
+	ck_assert_int_eq(status, 0);
+	ck_assert_int_eq(vm->last_alive, 8);
 	ck_assert_int_eq(g_process_calls[1], 0);
 	ck_assert_int_eq(g_process_calls[2], 197);
 	ck_assert_int_eq(g_process_calls[3], 234);

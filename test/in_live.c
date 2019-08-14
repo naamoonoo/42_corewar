@@ -23,16 +23,24 @@ START_TEST (test_in_live)
 
 	vm = malloc(sizeof(t_vm));
 	vm->p_list = process1;
-	vm->last_alive = NULL;
+	vm->num_champions = 2;
+	vm->last_alive = 0;
 	vm->cycles_to_die = CYCLE_TO_DIE;
 	vm->delta = CYCLE_DELTA;
+
+	vm->champions[0] = malloc(sizeof(t_champion));
+	vm->champions[0]->number = 1;
+	vm->champions[0]->name = "test";
+	vm->champions[1] = malloc(sizeof(t_champion));
+	vm->champions[1]->number = 2;
+	vm->champions[1]->name = "test2";
 
 	process1->alive = FALSE;
 	process2->alive = FALSE;
 	in_live(vm, process1);
 	ck_assert(process1->alive);
 	ck_assert(!process2->alive);
-	ck_assert_ptr_eq(vm->last_alive, process1);
+	ck_assert_int_eq(vm->last_alive, 1);
 
 	mem->next->next->next->next->data = 0xFE;
 	process1->alive = FALSE;
@@ -40,11 +48,11 @@ START_TEST (test_in_live)
 	in_live(vm, process1);
 	ck_assert(process1->alive);
 	ck_assert(!process2->alive);
-	ck_assert_ptr_eq(vm->last_alive, process2);
+	ck_assert_int_eq(vm->last_alive, 2);
 
 	mem->next->next->next->next->data = 0xFD;
 	in_live(vm, process1);
-	ck_assert_ptr_eq(vm->last_alive, process2);
+	ck_assert_int_eq(vm->last_alive, 2);
 }
 END_TEST
 

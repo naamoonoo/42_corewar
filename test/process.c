@@ -12,8 +12,8 @@ START_TEST (test_process_new)
 	p = process_new(1, mem);
 	ck_assert_ptr_nonnull(p);
 	ck_assert_int_eq(p->pid, 1);
-	ck_assert_int_eq(p->registers[0], -1);
-	for (int i = 1; i <= REG_NUMBER; i++)
+	ck_assert_int_eq(p->registers[1], -1);
+	for (int i = 2; i <= REG_NUMBER; i++)
 		ck_assert_int_eq(p->registers[i], 0);
 	ck_assert_int_eq(p->carry, FALSE);
 	ck_assert_ptr_eq(p->pc, mem);
@@ -23,12 +23,12 @@ START_TEST (test_process_new)
 	p = process_new(2, mem);
 	ck_assert_ptr_nonnull(p);
 	ck_assert_int_eq(p->pid, 2);
-	ck_assert_int_eq(p->registers[0], -2);
+	ck_assert_int_eq(p->registers[1], -2);
 
 	p = process_new(42, mem);
 	ck_assert_ptr_nonnull(p);
 	ck_assert_int_eq(p->pid, 42);
-	ck_assert_int_eq(p->registers[0], -42);
+	ck_assert_int_eq(p->registers[1], -42);
 }
 END_TEST
 

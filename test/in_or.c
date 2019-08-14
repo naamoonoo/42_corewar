@@ -20,6 +20,7 @@ START_TEST (test_in_or)
 	ck_assert_int_eq(process->carry, FALSE);
 
 	// or r1 r2 r3
+	process->pc = mem;
 	WRITE_TO_MEM(mem, ((char[5]) {0x07, 0x54, 0x01, 0x02, 0x03}), 5);
 	process->registers[1] = 0;
 	process->registers[2] = 0;
@@ -46,7 +47,7 @@ START_TEST (test_in_or)
 	process->pc = mem;
 	WRITE_TO_MEM(mem, ((char[11]) {0x07, 0xA4, 0xAA, 0xAA, 0xAA, 0xAA, 0x89, 0xAB, 0xCD, 0xEF, 0x05}), 11);
 	in_or(NULL, process);
-	ck_assert_int_eq(process->registers[5], 0xABABEFEF);
+	ck_assert_int_eq(process->registers[5], (int) 0xABABEFEF);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	// or 7 11 r12
@@ -55,7 +56,7 @@ START_TEST (test_in_or)
 								   0x01, 0x23, 0x45, 0x67,
 								   0x89, 0xAB, 0xCD, 0xEF}), 15);
 	in_or(NULL, process);
-	ck_assert_int_eq(process->registers[12], 0x89ABCDEF);
+	ck_assert_int_eq(process->registers[12], (int) 0x89ABCDEF);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	// or IDX_MOD IDX_MOD+4 r1
@@ -67,7 +68,7 @@ START_TEST (test_in_or)
 	mem_write_dir(ptr, 0xEF508C58);
 	mem_write_dir(ptr->next->next->next->next, 0x783BF523);
 	in_or(NULL, process);
-	ck_assert_int_eq(process->registers[1], 0xFF7BFD7B);
+	ck_assert_int_eq(process->registers[1], (int) 0xFF7BFD7B);
 	ck_assert_int_eq(process->carry, FALSE);
 }
 END_TEST

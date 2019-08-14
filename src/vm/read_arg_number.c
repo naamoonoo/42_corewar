@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   in_ld.c                                            :+:      :+:    :+:   */
+/*   read_arg_number.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/11 20:24:39 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/13 21:23:17 by nwhitlow         ###   ########.fr       */
+/*   Created: 2019/08/12 14:04:38 by nwhitlow          #+#    #+#             */
+/*   Updated: 2019/08/12 14:05:01 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/corewar.h"
 
-void	in_ld(t_vm *vm, t_process *process, t_visualizer *gv)
+int	read_arg_number(int argc, char **argv, int *i, t_vm *vm)
 {
-	t_arg_list	*args;
-	int			value;
+	int num;
 
-	UNUSED(vm);
-	args = decode_arg_list(g_op_tab[1], process, 1);
-	if (args == NULL)
-		return ;
-	value = arg_list_read(args, 0, gv, process);
-	process->carry = (value == 0);
-	arg_list_write(args, 1, value, gv, process);
-	free(args);
+	*i += 1;
+	if (*i >= argc)
+	{
+		ft_printf("Error: %s must be followed by an argument.\n", argv[*i - 1]);
+		free(vm);
+		exit(1);
+	}
+	num = ft_atoi(argv[*i]);
+	if (num == 0 && !ft_strequ(argv[*i], "0"))
+	{
+		ft_printf("Error: Invalid argument for %s: %s\n",
+				argv[*i - 1], argv[*i]);
+		free(vm);
+		exit(1);
+	}
+	*i += 1;
+	return (num);
 }
