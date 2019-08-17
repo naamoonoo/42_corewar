@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/13 21:59:39 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/16 22:03:48 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,28 @@
 
 # define KEY sdl->e.key.keysym.sym
 
+# define R set.color.r
+# define G set.color.g
+# define B set.color.b
+# define A set.color.a
+
+# define C_BK (SDL_Color){0, 0, 0, 255}
+# define C_WH (SDL_Color){255, 255, 255, 255}
+# define C_ORG (SDL_Color){200, 100, 20, 255}
 # define MAP_Y f->map_size.y
 # define MAP_X f->map_size.x
 # define PIECE_Y f->piece_size.y
 # define PIECE_X f->piece_size.x
 # define PIECE_P_X 850
 # define PIECE_P_Y 140
-# define NUM_OF_INFO 15
+# define NUM_OF_INFO 20
+
+typedef struct		s_set
+{
+	char			*text;
+	SDL_Rect		rect;
+	SDL_Color		color;
+}					t_set;
 
 typedef struct		s_sdl
 {
@@ -46,26 +61,16 @@ typedef struct		s_sdl
 	SDL_Event		e;
 	SDL_Texture		*tex[NUM_OF_INFO];
 	SDL_Rect		rect[NUM_OF_INFO];
-	int				round;
 	int				is_running;
 	int				is_quit;
-	int				cmp_selected;
+	int				nb_of_p;
+	t_set			selected_cmp[4];
+	int				ready_to_start;
 	int				w;
 	int				h;
 	TTF_Font		*font[2];
-
-
 	int				is_forked;
 }					t_sdl;
-
-typedef struct		s_color
-{
-	int				r;
-	int				g;
-	int				b;
-	int				a;
-}					t_cl;
-
 typedef struct		s_f
 {
 	int				fd;
@@ -104,6 +109,11 @@ t_btn	*btn_init(void);
 int	is_clicked(t_sdl *sdl, SDL_Rect btn);
 int	render_start_text(t_sdl *sdl);
 int	render_start_btn(t_sdl *sdl, t_btn *btn);
+int	render_start_box(t_sdl *sdl);
+void	select_player(t_sdl *sdl);
+
+void	render_text(t_sdl *sdl, int idx);
+
 
 void				parse_data(t_f *f, t_sdl *sdl);
 void				player_info(t_f *f, char *line);
@@ -115,7 +125,6 @@ void				render_piece(t_sdl *sdl, t_f *f);
 void				fuck_norm(t_sdl *sdl, t_f *f, int y, int x);
 void				render_status_bar(t_sdl *sdl, t_f *f);
 
-void				render_text(t_sdl *sdl, t_f *f);
 void				render_text2(t_sdl *sdl);
 void				render_pallete(t_sdl *sdl);
 void				get_text_and_rect(char *text, t_sdl *sdl,

@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:02:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/13 21:59:53 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/16 22:05:01 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,9 @@ void	event_handler(t_sdl *sdl, t_btn *btn)
 	if (sdl->e.type == SDL_QUIT || sdl->e.key.keysym.sym == SDLK_ESCAPE)
 		sdl->is_running = 0;
 	if (sdl->e.type == SDL_MOUSEBUTTONDOWN)
-		is_clicked(sdl, btn->start);
-
+		sdl->ready_to_start = is_clicked(sdl, btn->start) && sdl->nb_of_p >= 1;
+	if (sdl->e.type == SDL_MOUSEBUTTONDOWN)
+		select_player(sdl);
 	//
 	if (KEY == SDLK_DOWN)
 		sdl->is_forked = 1;

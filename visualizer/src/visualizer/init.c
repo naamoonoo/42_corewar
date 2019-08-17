@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:00:42 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/13 21:51:46 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/16 18:17:03 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ t_sdl	*sdl_init(void)
 	SDL_SetRenderDrawColor(sdl->ren, 169, 169, 169, 0);
 	sdl->is_running = 1;
 	sdl->is_quit = 0;
-	sdl->cmp_selected = 0;
-
+	sdl->ready_to_start = 0;
+	sdl->nb_of_p = 0;
 
 	sdl->is_forked = 0;
 	return (sdl);
