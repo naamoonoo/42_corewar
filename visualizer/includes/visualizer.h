@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/18 20:18:30 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/18 22:05:04 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 # define PIECE_X f->piece_size.x
 # define PIECE_P_X 850
 # define PIECE_P_Y 140
-# define NUM_OF_INFO 15
+# define NUM_OF_INFO 14
 # define NUM_OF_CHAMP 10
 
 typedef struct		s_set
@@ -71,10 +71,10 @@ typedef struct		s_sdl
 	SDL_Rect		rect[NUM_OF_INFO];
 	SDL_Texture		*champ_tex[NUM_OF_CHAMP];
 	SDL_Rect		champ_rect[NUM_OF_CHAMP];
+	char			*curr_champs[NUM_OF_CHAMP];
 	int				fd;
 	char			*tmp;
 	char			**champs;
-	char			*curr_champs[NUM_OF_CHAMP];
 	int				is_running;
 	int				is_quit;
 	int				nb_of_p;

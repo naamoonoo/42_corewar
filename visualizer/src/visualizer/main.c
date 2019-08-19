@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:01:44 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/18 20:20:08 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/18 22:32:35 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,6 @@ void	main_loop(t_sdl *sdl, t_btn *btn)
 		}
 		else
 		{
-			// for (int i = 0; i < sdl->nb_of_p; i++)
-			// {
-			// 	printf("[%d]%s\n", i, sdl->selected_cmp[i]);
-			// }
-			// render_start_box(sdl);
-			// render_start_text(sdl);
-			// render_champs(sdl);
 			render_start_page(sdl);
 		}
 		SDL_SetRenderDrawColor(sdl->ren, 0xda, 0xdd, 0xdf, 0);

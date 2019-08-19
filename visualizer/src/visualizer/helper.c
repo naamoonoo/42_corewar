@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:02:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/18 19:50:49 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/18 22:39:39 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	event_handler(t_sdl *sdl, t_btn *btn)
 		select_player(sdl);
 		unselect_player(sdl);
 		change_page(sdl);
-		sdl->ready = (is_clicked(sdl, btn->start) && (sdl->nb_of_p > 1));
+		sdl->ready = (is_clicked(sdl, (SDL_Rect){1610, 1300, 300, 80})
+			&& (sdl->nb_of_p > 1));
 	}
 	if (KEY == SDLK_DOWN)
 		sdl->is_forked = 1;
@@ -37,6 +38,7 @@ void	event_handler(t_sdl *sdl, t_btn *btn)
 	// 	f->auto_fill = 1;
 	// else if (sdl->e.key.keysym.sym == SDLK_LEFT)
 	// 	f->auto_fill = 0;
+	(void)btn;
 }
 
 void	end_process(t_sdl *sdl)

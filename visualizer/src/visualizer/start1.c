@@ -26,7 +26,7 @@ void	render_start_page(t_sdl *sdl)
 		render_start_text(sdl);
 	}
 	idx = -1;
-	while (++idx < 10)
+	while (++idx < NUM_OF_CHAMP)
 		SDL_RenderCopy(sdl->ren, sdl->champ_tex[idx],
 			NULL, &(sdl->champ_rect[idx]));
 	idx = -1;
@@ -38,20 +38,27 @@ void	render_champs(t_sdl *sdl)
 {
 	int		idx;
 	int		len;
-	char	*text;
 
+	idx = 0;
+	while (idx < NUM_OF_CHAMP && sdl->champs[sdl->page * 10 + idx])
+	{
+		sdl->curr_champs[idx] = sdl->champs[sdl->page * 10 + idx];
+		idx++;
+	}
+	while (idx < NUM_OF_CHAMP)
+		sdl->curr_champs[idx++] = NULL;
 	idx = -1;
 	while (++idx < 10)
 	{
-		if ((text = sdl->champs[sdl->page * 10 + idx]))
+		if (sdl->curr_champs[idx])
 		{
-			if ((len = 40 * ft_strlen(text)) > 520)
+			if ((len = 40 * ft_strlen(sdl->curr_champs[idx])) > 520)
 				len = 520;
 			sdl->champ_rect[idx] = (SDL_Rect){260, 570 + idx * 80, len, 40};
 		}
 		else
 			sdl->champ_rect[idx] = (SDL_Rect){260, 570 + idx * 80, 0, 40};
-		sdl->scr = TTF_RenderText_Solid(sdl->font[0], text, C_BK);
+		sdl->scr = TTF_RenderText_Solid(sdl->font[0], sdl->curr_champs[idx], C_BK);
 		sdl->champ_tex[idx] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
 	}
 }

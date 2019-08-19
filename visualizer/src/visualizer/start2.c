@@ -16,7 +16,6 @@ t_set	g_text_sets[] =
 	{"PREV", (SDL_Rect){260, 1430, 120, 30}, C_BK},
 	{"NEXT", (SDL_Rect){450, 1430, 120, 30}, C_BK},
 	{"aderby, drosa-ta, nwhitlow, hnam", (SDL_Rect){1700, 300, 20 * 29, 20}, C_BL},
-	{"X", (SDL_Rect){1450, 1300, 100, 100}, C_BL},
 };
 
 int	render_start_text(t_sdl *sdl)
@@ -48,21 +47,21 @@ void	select_player(t_sdl *sdl)
 	idx = 0;
 	if (!is_clicked(sdl, (SDL_Rect){120, 500, 660, 900}))
 		return ;
-	while (sdl->nb_of_p < 4 && sdl->champs[sdl->page * 10 + idx])
+	while (sdl->nb_of_p < 4 && idx < NUM_OF_CHAMP &&
+		sdl->curr_champs[idx])
 	{
 		if (is_clicked(sdl, sdl->champ_rect[idx])
-		 //&& ft_strcmp(sdl->champs[sdl->page * 10 + idx], sdl->curr_champs[idx]) == 0
-			&& !is_existed(sdl, sdl->champs[sdl->page * 10 + idx]))
+			&& !is_existed(sdl, sdl->curr_champs[idx]))
 		{
 			sdl->selected_cmp[sdl->nb_of_p] =
-				sdl->champs[sdl->page * 10 + idx];
+				sdl->curr_champs[idx];
 			g_text_sets[7 + sdl->nb_of_p].text =
-				sdl->champs[sdl->page * 10 + idx];
+				sdl->curr_champs[idx];
 			sdl->nb_of_p += 1;
 			destroy_start_page(sdl);
 			render_champs(sdl);
 			render_start_text(sdl);
-			break ;
+			return ;
 		}
 		idx++;
 	}
@@ -70,13 +69,24 @@ void	select_player(t_sdl *sdl)
 
 void	unselect_player(t_sdl *sdl)
 {
-	if (!is_clicked(sdl, (SDL_Rect){1450, 1300, 100, 100}))
-		return ;
-	;
+	int	i;
 
-	sdl->nb_of_p -= 1;
-	sdl->selected_cmp[sdl->nb_of_p] = NULL;
-	g_text_sets[7 + sdl->nb_of_p].text = NULL;
+	i = 0;
+	while (i < 4 && !is_clicked(sdl, g_text_sets[7 + i].rect))
+		i++;
+	if (i == 4)
+		return ;
+	sdl->nb_of_p -= (sdl->nb_of_p != 0);
+	sdl->selected_cmp[i] = NULL;
+	g_text_sets[7 + i].text = NULL;
+	while (i < sdl->nb_of_p)
+	{
+		sdl->selected_cmp[i] = sdl->selected_cmp[i + 1];
+		sdl->selected_cmp[i + 1] = NULL;
+		g_text_sets[7 + i].text = g_text_sets[7 + i + 1].text;
+		g_text_sets[7 + i + 1].text = NULL;
+		i++;
+	}
 	destroy_start_page(sdl);
 	render_champs(sdl);
 	render_start_text(sdl);
