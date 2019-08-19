@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/16 22:03:48 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/18 20:18:30 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,22 @@
 
 # define C_BK (SDL_Color){0, 0, 0, 255}
 # define C_WH (SDL_Color){255, 255, 255, 255}
-# define C_ORG (SDL_Color){200, 100, 20, 255}
+# define C_BL (SDL_Color){0x36, 0x4f, 0x6b, 255}
+# define C_GREY (SDL_Color){0xea, 0xea, 0xea, 255}
+# define C_P1 (SDL_Color){0x11, 0x14, 0x4c, 255}
+# define C_P2 (SDL_Color){0x3a, 0x96, 0x79, 255}
+# define C_P3 (SDL_Color){0xfa, 0xbc, 0x60, 255}
+# define C_P4 (SDL_Color){0xe1, 0x62, 0x62, 255}
+# define C_BACK (SDL_Color){32, 101, 131, 255}
+
 # define MAP_Y f->map_size.y
 # define MAP_X f->map_size.x
 # define PIECE_Y f->piece_size.y
 # define PIECE_X f->piece_size.x
 # define PIECE_P_X 850
 # define PIECE_P_Y 140
-# define NUM_OF_INFO 20
+# define NUM_OF_INFO 15
+# define NUM_OF_CHAMP 10
 
 typedef struct		s_set
 {
@@ -61,16 +69,24 @@ typedef struct		s_sdl
 	SDL_Event		e;
 	SDL_Texture		*tex[NUM_OF_INFO];
 	SDL_Rect		rect[NUM_OF_INFO];
+	SDL_Texture		*champ_tex[NUM_OF_CHAMP];
+	SDL_Rect		champ_rect[NUM_OF_CHAMP];
+	int				fd;
+	char			*tmp;
+	char			**champs;
+	char			*curr_champs[NUM_OF_CHAMP];
 	int				is_running;
 	int				is_quit;
 	int				nb_of_p;
-	t_set			selected_cmp[4];
-	int				ready_to_start;
+	int				page;
+	char			*selected_cmp[4];
+	int				ready;
 	int				w;
 	int				h;
 	TTF_Font		*font[2];
 	int				is_forked;
 }					t_sdl;
+
 typedef struct		s_f
 {
 	int				fd;
@@ -107,10 +123,17 @@ void				end_process(t_sdl *sdl);
 
 t_btn	*btn_init(void);
 int	is_clicked(t_sdl *sdl, SDL_Rect btn);
+int		is_existed(t_sdl *sdl, char *clicked);
+void	render_start_page(t_sdl *sdl);
+void	render_champs(t_sdl *sdl);
+void	change_page(t_sdl *sdl);
+
 int	render_start_text(t_sdl *sdl);
 int	render_start_btn(t_sdl *sdl, t_btn *btn);
 int	render_start_box(t_sdl *sdl);
 void	select_player(t_sdl *sdl);
+void	unselect_player(t_sdl *sdl);
+void	destroy_start_page(t_sdl *sdl);
 
 void	render_text(t_sdl *sdl, int idx);
 
@@ -132,5 +155,7 @@ void				get_text_and_rect(char *text, t_sdl *sdl,
 
 void				get_color_by(char p, t_f *f, t_sdl *sdl);
 void				get_score(t_f *f);
+
+
 
 #endif

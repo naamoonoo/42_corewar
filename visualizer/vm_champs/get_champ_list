@@ -1,0 +1,1 @@
+ls -Rl | find . -name "*.s" | rev | cut -d'/' -f 1 | rev | cut -d'.' -f 1

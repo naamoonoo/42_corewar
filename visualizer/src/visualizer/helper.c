@@ -6,46 +6,13 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:02:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/16 22:05:01 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/18 19:50:49 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "visualizer.h"
 
-void	get_score(t_f *f)
-{
-	int	y;
-	int	x;
 
-	y = -1;
-	f->s_p1 = 0;
-	f->s_p2 = 0;
-	while (f->m[++y])
-	{
-		x = -1;
-		while (f->m[y][++x])
-		{
-			if (ft_strchr(f->p1, f->m[y][x]))
-				f->s_p1 += 1;
-			else if (ft_strchr(f->p2, f->m[y][x]))
-				f->s_p2 += 1;
-		}
-	}
-}
-
-void	get_color_by(char p, t_f *f, t_sdl *sdl)
-{
-	SDL_Color	cl;
-
-	cl = ft_strchr(f->p1, p) ? f->c_p1 : f->c_p2;
-	if (p >= 'o' && p <= 'z')
-	{
-		cl.r *= 0.8;
-		cl.g *= 0.8;
-		cl.b *= 0.8;
-	}
-	SDL_SetRenderDrawColor(sdl->ren, cl.r, cl.g, cl.b, cl.a);
-}
 
 void	event_handler(t_sdl *sdl, t_btn *btn)
 {
@@ -53,11 +20,13 @@ void	event_handler(t_sdl *sdl, t_btn *btn)
 		sdl->is_quit = 1;
 	if (sdl->e.type == SDL_QUIT || sdl->e.key.keysym.sym == SDLK_ESCAPE)
 		sdl->is_running = 0;
-	if (sdl->e.type == SDL_MOUSEBUTTONDOWN)
-		sdl->ready_to_start = is_clicked(sdl, btn->start) && sdl->nb_of_p >= 1;
-	if (sdl->e.type == SDL_MOUSEBUTTONDOWN)
+	if (sdl->ready == 0 && sdl->e.type == SDL_MOUSEBUTTONDOWN)
+	{
 		select_player(sdl);
-	//
+		unselect_player(sdl);
+		change_page(sdl);
+		sdl->ready = (is_clicked(sdl, btn->start) && (sdl->nb_of_p > 1));
+	}
 	if (KEY == SDLK_DOWN)
 		sdl->is_forked = 1;
 	// if (KEY == SDLK_UP)

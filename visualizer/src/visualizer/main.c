@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:01:44 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/16 22:05:37 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/18 20:20:08 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,22 @@ void	main_loop(t_sdl *sdl, t_btn *btn)
 		while (SDL_PollEvent(&(sdl->e)))
 			event_handler(sdl, btn);
 		SDL_RenderClear(sdl->ren);
-		if (sdl->ready_to_start)
+		if (sdl->ready)
 		{
 			render_map(sdl, 64, 64);
 		}
 		else
 		{
-			for (int i = 0; i < sdl->nb_of_p; i++)
-			{
-				printf("[%d]%s\n", i, sdl->selected_cmp[i].text);
-			}
-			render_start_box(sdl);
-			// render_start_btn(sdl, btn);
-			render_start_text(sdl);
+			// for (int i = 0; i < sdl->nb_of_p; i++)
+			// {
+			// 	printf("[%d]%s\n", i, sdl->selected_cmp[i]);
+			// }
+			// render_start_box(sdl);
+			// render_start_text(sdl);
+			// render_champs(sdl);
+			render_start_page(sdl);
 		}
-		SDL_SetRenderDrawColor(sdl->ren, 0xdc, 0xdd, 0xe1, 0);
+		SDL_SetRenderDrawColor(sdl->ren, 0xda, 0xdd, 0xdf, 0);
 		SDL_RenderPresent(sdl->ren);
 		SDL_Delay(1000 / 60);
 	}
@@ -44,7 +45,6 @@ int		main(int ac, char *av[])
 {
 	t_sdl	*sdl;
 	t_btn	*btn;
-
 	(void)av[ac - 1];
 
 	/*
