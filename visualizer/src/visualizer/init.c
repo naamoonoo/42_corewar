@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:00:42 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/17 21:40:53 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/18 22:42:24 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,4 @@ t_sdl	*sdl_init(void)
 	sdl->page = 0;
 	sdl->is_forked = 0;
 	return (sdl);
-}
-
-t_btn	*btn_init(void)
-{
-	t_btn *btn;
-
-	btn = malloc(sizeof(t_btn));
-	btn->start = (SDL_Rect){1550, 1380, 400, 120};
-	return (btn);
 }

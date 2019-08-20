@@ -1,27 +1,23 @@
-FILL	=	hnam.filler
 VISU	=	visualizer
 
 CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror -g -fsanitize=address
 
+# for me to use
 LIB		=	-L frameworks/SDL2.framework/lib -l SDL2 -L frameworks/SDL2_ttf.framework/lib -l SDL2_ttf
 INCLUDE	=	-Iincludes -Iframeworks/SDL2.framework/includes/SDL2 -Iframeworks/SDL2_ttf.framework/includes
 
-SRC		=	$(wildcard src/filler/*.c)
-OBJ		=	$(patsubst src/filler/%.c, obj/filler/%.o, $(SRC))
+# for submit, need to brew install sdl2 / sdl2_ttf first
+# LIB		=	-L ~/.brew/Cellar/sdl2/2.0.9_1/lib -l SDL2-2.0.0 -L ~/.brew/Cellar/sdl2_ttf/2.0.15/lib -l SDL2_ttf-2.0.0
+# INCLUDE	=	-Iincludes -I~/.brew/Cellar/sdl2/2.0.9_1/includes/SDL2 -I~/.brew/Cellar/sdl2_ttf/2.0.15/includes/SDL2
+
 SRC_V	=	$(wildcard src/visualizer/*.c)
 OBJ_V	=	$(patsubst src/visualizer/%.c, obj/visualizer/%.o, $(SRC_V))
 
-all		:	$(FILL) $(VISU)
+all		:	$(VISU)
 
 obj/%.o	: 	src/%.c
 			@$(CC) $(CFLAGS) $(OPTION) -c -o $@ $< $(INCLUDE)
-
-$(FILL)	:	obj $(OBJ)
-			@cd lib && make
-			@mv lib/libftprintf.a .
-			@$(CC) -o $(FILL) $(CFLAGS) $(OBJ) libftprintf.a
-			@echo "excutable file $(FILL) has been made"
 
 $(VISU)	:	obj $(OBJ_V)
 			@cd lib && make
@@ -31,7 +27,6 @@ $(VISU)	:	obj $(OBJ_V)
 
 obj		:
 			@mkdir obj
-			@mkdir obj/filler
 			@mkdir obj/visualizer
 
 clean	:

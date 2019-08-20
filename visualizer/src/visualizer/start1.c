@@ -72,7 +72,7 @@ int	render_start_box(t_sdl *sdl)
 	while (++idx < 10)
 	{
 		set = g_start_sets[idx];
-		if (ft_strcmp(set.text, "START") == 0 && sdl->nb_of_p < 2)
+		if (ft_strcmp(set.text, "START") == 0 && sdl->nb_of_p < 1)
 			set.color = C_GREY;
 		SDL_SetRenderDrawColor(sdl->ren, R, G, B, A);
 		SDL_RenderFillRect(sdl->ren, &(set.rect));
@@ -94,13 +94,5 @@ int		is_existed(t_sdl *sdl, char *clicked)
 	while (++i < sdl->nb_of_p)
 		if (ft_strcmp(sdl->selected_cmp[i], clicked) == 0)
 			return (1);
-	return (0);
-}
-
-int	is_clicked(t_sdl *sdl, SDL_Rect btn)
-{
-	if ((BTN_X >= btn.x && BTN_X <= btn.x + btn.w) &&
-		(BTN_Y >= btn.y && BTN_Y <= btn.y + btn.h))
-		return (1);
 	return (0);
 }

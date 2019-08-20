@@ -6,23 +6,24 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:01:44 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/18 22:32:35 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/19 20:32:52 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "visualizer.h"
 
 
-void	main_loop(t_sdl *sdl, t_btn *btn)
+void	main_loop(t_sdl *sdl)
 {
 	while (sdl->is_running)
 	{
 		while (SDL_PollEvent(&(sdl->e)))
-			event_handler(sdl, btn);
+			event_handler(sdl);
 		SDL_RenderClear(sdl->ren);
 		if (sdl->ready)
 		{
-			render_map(sdl, 64, 64);
+			render_play_page(sdl);
+
 		}
 		else
 		{
@@ -37,7 +38,6 @@ void	main_loop(t_sdl *sdl, t_btn *btn)
 int		main(int ac, char *av[])
 {
 	t_sdl	*sdl;
-	t_btn	*btn;
 	(void)av[ac - 1];
 
 	/*
@@ -46,10 +46,8 @@ int		main(int ac, char *av[])
 	** if (ac != 2 && FP("./visualizer [trace]\n"))
 	** 	return (0);
 	*/
-
 	sdl = sdl_init();
-	btn = btn_init();
-	main_loop(sdl, btn);
+	main_loop(sdl);
 	while (!sdl->is_quit)
 	{
 		while (SDL_PollEvent(&(sdl->e)))

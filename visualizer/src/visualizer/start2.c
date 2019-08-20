@@ -27,7 +27,7 @@ int	render_start_text(t_sdl *sdl)
 	while (++idx < NUM_OF_INFO)
 	{
 		set = g_text_sets[idx];
-		if (set.text && ft_strcmp(set.text, "START") == 0 && sdl->nb_of_p >= 2)
+		if (set.text && ft_strcmp(set.text, "START") == 0 && sdl->nb_of_p > 0)
 			set.color = C_WH;
 		sdl->rect[idx] = set.rect;
 		sdl->scr = TTF_RenderText_Solid(sdl->font[0], set.text, set.color);
@@ -103,12 +103,11 @@ void	change_page(t_sdl *sdl)
 	if (is_clicked(sdl, (SDL_Rect){450, 1430, 120, 30})
 		&& sdl->page < 9 && (changed = 1)) // need to find end point
 		sdl->page += 1;
-	if (changed)
-	{
-		destroy_start_page(sdl);
-		render_champs(sdl);
-		render_start_text(sdl);
-	}
+	if (!changed)
+		return ;
+	destroy_start_page(sdl);
+	render_champs(sdl);
+	render_start_text(sdl);
 }
 
 /*

@@ -6,15 +6,21 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:02:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/18 22:39:39 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/19 22:39:35 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "visualizer.h"
 
+int	is_clicked(t_sdl *sdl, SDL_Rect btn)
+{
+	if ((BTN_X >= btn.x && BTN_X <= btn.x + btn.w) &&
+		(BTN_Y >= btn.y && BTN_Y <= btn.y + btn.h))
+		return (1);
+	return (0);
+}
 
-
-void	event_handler(t_sdl *sdl, t_btn *btn)
+void	event_handler(t_sdl *sdl)
 {
 	if (sdl->e.type == SDL_QUIT)
 		sdl->is_quit = 1;
@@ -26,7 +32,8 @@ void	event_handler(t_sdl *sdl, t_btn *btn)
 		unselect_player(sdl);
 		change_page(sdl);
 		sdl->ready = (is_clicked(sdl, (SDL_Rect){1610, 1300, 300, 80})
-			&& (sdl->nb_of_p > 1));
+			&& (sdl->nb_of_p > 0));
+		sdl->ready ? destroy_start_page(sdl) : 0;
 	}
 	if (KEY == SDLK_DOWN)
 		sdl->is_forked = 1;
@@ -38,7 +45,6 @@ void	event_handler(t_sdl *sdl, t_btn *btn)
 	// 	f->auto_fill = 1;
 	// else if (sdl->e.key.keysym.sym == SDLK_LEFT)
 	// 	f->auto_fill = 0;
-	(void)btn;
 }
 
 void	end_process(t_sdl *sdl)
