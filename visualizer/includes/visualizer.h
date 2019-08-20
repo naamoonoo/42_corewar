@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/19 22:38:14 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/19 22:53:37 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define C_BK (SDL_Color){0, 0, 0, 255}
 # define C_WH (SDL_Color){255, 255, 255, 255}
 # define C_BL (SDL_Color){0x36, 0x4f, 0x6b, 255}
-# define C_GREY (SDL_Color){0xea, 0xea, 0xea, 255}
+# define C_GR (SDL_Color){0xea, 0xea, 0xea, 255}
 # define C_P1 (SDL_Color){0x11, 0x14, 0x4c, 255}
 # define C_P2 (SDL_Color){0x3a, 0x96, 0x79, 255}
 # define C_P3 (SDL_Color){0xfa, 0xbc, 0x60, 255}
