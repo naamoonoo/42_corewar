@@ -14,7 +14,7 @@ START_TEST (test_in_aff)
 	vm->cycles_to_die = CYCLE_TO_DIE;
 	vm->delta = CYCLE_DELTA;
 
-	in_aff(vm, process);
+	in_aff(vm, process, NULL);
 }
 END_TEST
 

@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 11:45:30 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/06 19:45:59 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/20 13:23:33 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void				*ft_arrlst_set(t_arrlst *list, int index, void *data);
 int					get_next_line(const int fd, char **line);
 
 int					ft_printf(const char *format, ...);
+int					ft_fdprintf(int fd, const char *format, ...);
 char				*ft_strprintf(const char *format, ...);
 
 typedef struct		s_point
@@ -149,5 +150,8 @@ typedef struct		s_point
 	int				x;
 	int				y;
 }					t_point;
+
+int					get_file(int fd, char **file);
+char				*ft_strjoin_by(char const *s1, char const *s2, char *c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 20:26:17 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/13 20:10:10 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/16 19:29:38 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ void	in_live(t_vm *vm, t_process *process, t_visualizer *gv)
 	vm->lives_this_round++;
 	ft_printf("A process shows that player %d (%s) is alive\n",
 			champ, champ_name);
-	(*gv->process_lived)(gv->data, process);
+	if (gv != NULL)
+		(*gv->process_lived)(gv->data, process);
 }

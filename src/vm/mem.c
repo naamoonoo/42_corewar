@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mem.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/05 13:15:33 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/13 21:21:18 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/19 15:32:46 by drosa-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int		mem_read_dir(t_mem *ptr, t_visualizer *gv, t_process *p)
 		i++;
 	}
 	value = *((int *)output);
-	(*gv->memory_read)(gv->data, hold, value, p);
+	if (gv != NULL)
+		(*gv->memory_read)(gv->data, hold, value, p);
 	return (value);
 }
 
@@ -70,7 +71,8 @@ void	mem_write_dir(t_mem *ptr, int value, t_visualizer *gv, t_process *p)
 	char	*input;
 	int		i;
 
-	(*gv->memory_written)(gv->data, ptr, value, p);
+	if (gv != NULL)
+		(*gv->memory_written)(gv->data, ptr, value, p);
 	input = (void *)&value;
 	i = 0;
 	while (i < 4)
@@ -79,19 +81,4 @@ void	mem_write_dir(t_mem *ptr, int value, t_visualizer *gv, t_process *p)
 		ptr = ptr->next;
 		i++;
 	}
-}
-
-t_mem	*mem_ptr_add(t_mem *ptr, int offset)
-{
-	while (offset > 0)
-	{
-		ptr = ptr->next;
-		offset--;
-	}
-	while (offset < 0)
-	{
-		ptr = ptr->prev;
-		offset++;
-	}
-	return (ptr);
 }

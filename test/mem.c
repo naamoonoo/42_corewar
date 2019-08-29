@@ -93,7 +93,7 @@ END_TEST
 START_TEST (test_mem_read_dir)
 {
 	for (int i = 0; i < 23; i++)
-		ck_assert_int_eq(dir_values[i], mem_read_dir(mem + i));
+		ck_assert_int_eq(dir_values[i], mem_read_dir(mem + i, NULL, NULL));
 }
 END_TEST
 
@@ -108,7 +108,7 @@ START_TEST (test_mem_write_dir)
 	};
 	for (int i = 0; i < 23; i++)
 	{
-		mem_write_dir(mem2, dir_values[i]);
+		mem_write_dir(mem2, dir_values[i], NULL, NULL);
 		const t_mem *ptr = mem + i;
 		t_mem *ptr2 = mem2;
 		for (int j = 0; j < 4; j++)

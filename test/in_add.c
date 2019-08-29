@@ -18,21 +18,21 @@ START_TEST (test_in_add)
 
 	process->registers[1] = 1;
 	process->registers[2] = 1;
-	in_add(NULL, process);
+	in_add(NULL, process, NULL);
 	ck_assert_int_eq(process->registers[3], 2);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	process->registers[1] = -1;
 	process->registers[2] = -1;
 	process->pc = mem;
-	in_add(NULL, process);
+	in_add(NULL, process, NULL);
 	ck_assert_int_eq(process->registers[3], -2);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	process->registers[1] = -1;
 	process->registers[2] = 1;
 	process->pc = mem;
-	in_add(NULL, process);
+	in_add(NULL, process, NULL);
 	ck_assert_int_eq(process->registers[3], 0);
 	ck_assert_int_eq(process->carry, TRUE);
 
@@ -41,13 +41,13 @@ START_TEST (test_in_add)
 	mem->next->next->next->next->data = 0x07;
 	process->registers[7] = INT_MAX;
 	process->pc = mem;
-	in_add(NULL, process);
+	in_add(NULL, process, NULL);
 	ck_assert_int_eq(process->registers[7], -2);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	mem->next->data = 0xFF;
 	process->pc = mem;
-	in_add(NULL, process);
+	in_add(NULL, process, NULL);
 	ck_assert_int_eq(process->registers[7], -2);
 	ck_assert_int_eq(process->carry, FALSE);
 }

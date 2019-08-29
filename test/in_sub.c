@@ -18,14 +18,14 @@ START_TEST (test_in_sub)
 
 	process->registers[1] = 2;
 	process->registers[2] = 1;
-	in_sub(NULL, process);
+	in_sub(NULL, process, NULL);
 	ck_assert_int_eq(process->registers[3], 1);
 	ck_assert_int_eq(process->carry, FALSE);
 
 	process->registers[1] = -2;
 	process->registers[2] = -1;
 	process->pc = mem;
-	in_sub(NULL, process);
+	in_sub(NULL, process, NULL);
 	ck_assert_int_eq(process->registers[3], -1);
 	ck_assert_int_eq(process->carry, FALSE);
 
@@ -34,13 +34,13 @@ START_TEST (test_in_sub)
 	mem->next->next->next->next->data = 0x07;
 	process->registers[7] = INT_MAX;
 	process->pc = mem;
-	in_sub(NULL, process);
+	in_sub(NULL, process, NULL);
 	ck_assert_int_eq(process->registers[7], 0);
 	ck_assert_int_eq(process->carry, TRUE);
 
 	mem->next->data = 0xFF;
 	process->pc = mem;
-	in_sub(NULL, process);
+	in_sub(NULL, process, NULL);
 }
 END_TEST
 

@@ -37,7 +37,7 @@ START_TEST (test_in_live)
 
 	process1->alive = FALSE;
 	process2->alive = FALSE;
-	in_live(vm, process1);
+	in_live(vm, process1, NULL);
 	ck_assert(process1->alive);
 	ck_assert(!process2->alive);
 	ck_assert_int_eq(vm->last_alive, 1);
@@ -45,13 +45,13 @@ START_TEST (test_in_live)
 	mem->next->next->next->next->data = 0xFE;
 	process1->alive = FALSE;
 	process2->alive = FALSE;
-	in_live(vm, process1);
+	in_live(vm, process1, NULL);
 	ck_assert(process1->alive);
 	ck_assert(!process2->alive);
 	ck_assert_int_eq(vm->last_alive, 2);
 
 	mem->next->next->next->next->data = 0xFD;
-	in_live(vm, process1);
+	in_live(vm, process1, NULL);
 	ck_assert_int_eq(vm->last_alive, 2);
 }
 END_TEST

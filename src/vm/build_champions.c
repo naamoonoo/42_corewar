@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 16:33:02 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/12 14:23:44 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/20 15:06:17 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static int	add_with_number(t_arrlst *champions, int champ_number, char *file)
 		free_champions(champions);
 		return (-1);
 	}
+	// TODO better color assignment
+	champ->color = rand();
 	if (ft_arrlst_add(champions, &champ) == NULL)
 	{
 		ft_printf("Failed to add champion.\n");
@@ -69,7 +71,7 @@ static int	add_with_number(t_arrlst *champions, int champ_number, char *file)
 
 static int	add_without_number(t_arrlst *champions, char *file)
 {
-	int champ_number;
+	int		champ_number;
 
 	champ_number = 1;
 	while (champ_number_exists(champions, champ_number))
@@ -77,7 +79,7 @@ static int	add_without_number(t_arrlst *champions, char *file)
 	return (add_with_number(champions, champ_number, file));
 }
 
-t_arrlst	*build_champions(int argc, char **argv, int i)
+t_arrlst	*build_champions(int argc, char **argv, int *i)
 {
 	int			champ_number;
 	t_arrlst	*champions;
@@ -85,23 +87,25 @@ t_arrlst	*build_champions(int argc, char **argv, int i)
 	champions = ft_arrlst_new(sizeof(t_champion *));
 	if (champions == NULL)
 		return (NULL);
-	while (i < argc)
+	while (*i < argc)
 	{
-		if (ft_strequ(argv[i], "-n"))
+		if (ft_strequ(argv[*i], "-n"))
 		{
-			champ_number = read_arg_number(argc, argv, &i, NULL);
-			if (i >= argc)
+			champ_number = read_arg_number(argc, argv, i, NULL);
+			if (*i >= argc)
 			{
 				ft_printf("Error: Expected champion.\n");
 				free_champions(champions);
 				return (NULL);
 			}
-			if (add_with_number(champions, champ_number, argv[i]) == -1)
+			if (add_with_number(champions, champ_number, argv[*i]) == -1)
 				return (NULL);
 		}
-		else if (add_without_number(champions, argv[i]) == -1)
+		else if (argv[*i][0] == '-')
+			return (champions);
+		else if (add_without_number(champions, argv[*i]) == -1)
 			return (NULL);
-		i++;
+		*i += 1;
 	}
 	return (champions);
 }

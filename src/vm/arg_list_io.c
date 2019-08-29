@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 19:20:02 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/13 21:22:33 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/16 19:41:22 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 ** n is assumed to be valid
 */
 
-int			arg_list_read(t_arg_list *args, int n, t_visualizer *gv, t_process *p)
+int			arg_list_read(t_arg_list *args, int n, t_visualizer *gv,
+		t_process *p)
 {
 	t_mem	*mem;
 	int		*reg;
@@ -35,7 +36,7 @@ int			arg_list_read(t_arg_list *args, int n, t_visualizer *gv, t_process *p)
 	}
 }
 
-void		arg_list_write(t_arg_list *args, int n, int value, t_visualizer *gv, t_process *p)
+void		arg_list_write(t_arg_list *args, int n, int value, t_visualizer *gv)
 {
 	t_mem	*mem;
 	int		*reg;
@@ -43,7 +44,10 @@ void		arg_list_write(t_arg_list *args, int n, int value, t_visualizer *gv, t_pro
 	if (args->arg_types[n] == IND_CODE)
 	{
 		mem = args->args[n];
-		mem_write_dir(mem, value, gv, p);
+		if (gv == NULL)
+			mem_write_dir(mem, value, NULL, NULL);
+		else
+			mem_write_dir(mem, value, gv, gv->process);
 	}
 	else if (args->arg_types[n] == REG_CODE)
 	{

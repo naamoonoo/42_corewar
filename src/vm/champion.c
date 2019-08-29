@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   champion.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:28:58 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/11 21:27:40 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/28 19:34:24 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ static int	endian_swap(int n)
 
 static int	read_champion_header(int fd, t_champion *champion, char *filename)
 {
-	header_t	header;
+	t_header	header;
 	int			bytes_read;
 
-	bytes_read = read(fd, &header, sizeof(header_t));
-	if (bytes_read < (int)sizeof(header_t))
+	bytes_read = read(fd, &header, sizeof(t_header));
+	if (bytes_read < (int)sizeof(t_header))
 		THROW_ERROR("Error: Failed to read header\n");
 	if (endian_swap(header.magic) != COREWAR_EXEC_MAGIC)
 	{
@@ -101,6 +101,7 @@ t_champion	*read_champion_from_file(char *file)
 		return (NULL);
 	}
 	close(fd);
+	champ->filename = file;
 	return (champ);
 }
 

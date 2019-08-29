@@ -3,51 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 16:33:02 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/12 14:34:31 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/28 02:08:43 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/corewar.h"
 #include "../../include/op.h"
 
-static t_vm	*free_vm_and_return_null(t_vm *vm)
-{
-	free(vm);
-	return (NULL);
-}
-
-static t_vm	*build_vm(int argc, char **argv)
-{
-	t_arrlst	*champions;
-	t_vm		*vm;
-	int			i;
-
-	vm = vm_new();
-	if (vm == NULL)
-		return (NULL);
-	i = 1;
-	if (ft_strequ(argv[i], "-dump"))
-	{
-		vm->dump = TRUE;
-		vm->dump_after = read_arg_number(argc, argv, &i, vm);
-	}
-	champions = build_champions(argc, argv, i);
-	if (champions == NULL)
-		free_vm_and_return_null(vm);
-	if (ft_arrlst_isempty(champions))
-	{
-		ft_printf("Error: Must specify at least one champion!\n");
-		free_vm_and_return_null(vm);
-	}
-	if (vm_add_champions(vm, champions) == -1)
-		free_vm_and_return_null(vm);
-	ft_arrlst_del(&champions);
-	return (vm);
-}
-
+/*
 static void	print_vm(t_vm *vm)
 {
 	int			i;
@@ -71,31 +37,93 @@ static void	print_vm(t_vm *vm)
 		p = p->next;
 	}
 }
+*/
+
+t_visualizer	*create_visualizer(int argc, char **argv, int *i)
+{
+	if (argc == 1)
+	{
+		ft_putstr("usage: ./corewar [-v [text | SDL]]"
+				"[[-n number] champion1.cor] ... [-dump nbr_cycles]\n");
+		return (NULL);
+	}
+	if (ft_strequ(argv[1], "-v"))
+	{
+		if (argc == 2)
+		{
+			ft_putstr("Error: -v must be followed by an argument.\n");
+			return (NULL);
+		}
+		else if (ft_strequ(argv[2], "text"))
+		{
+			*i = 3;
+			return (visualizer_text_new());
+		}
+		else if (ft_strequi(argv[2], "sdl"))
+		{
+			*i = 3;
+			return (visualizer_sdl_new());
+		}
+		ft_putstr("Error: -v must be followed by either text or SDL.\n");
+		return (NULL);
+	}
+	else
+	{
+		*i = 1;
+		return (visualizer_text_new());
+	}
+}
 
 int			main(int argc, char **argv)
 {
+	t_visualizer	*gv;
+	t_arrlst	*champions;
 	t_vm	*vm;
-	int		winner_id;
-	char	*winner_name;
+	int	i;
 
-	if (argc == 1)
+	gv = create_visualizer(argc, argv, &i);
+	if (gv == NULL)
+		return (1);
+	champions = build_champions(argc, argv, &i);
+	if (champions == NULL)
 	{
-		ft_putstr("usage: ./corewar [-dump nbr_cycles]"
-				"[[-n number] champion1.cor] ...\n");
-		exit(1);
+		free(gv);
+		return (1);
 	}
-	vm = build_vm(argc, argv);
+	(*gv->init)(gv->data, argc - i + 1, argv + i - 1); // TODO check failure
+	if (ft_arrlst_isempty(champions))
+	{
+		ft_arrlst_del(&champions);
+		champions = (*gv->select_champs)(gv->data);
+		if (champions == NULL)
+		{
+			ft_printf("Error: Must specify at least one champion!\n");
+			free(gv);
+			return (1);
+		}
+	}
+	vm = vm_new(champions);
 	if (vm == NULL)
-		exit(1);
-	print_vm(vm);
-	if (scheduler(vm) == 0)
 	{
-		winner_id = vm->last_alive;
-		winner_name = vm_get_champ_name(vm, winner_id);
-		ft_printf("Player %d (%s) won\n", winner_id, winner_name);
+//		ft_arrlst_free(&champions, free_champion);
+		free(gv);
+		return (1);
 	}
-	else
-		mem_dump(vm->memory);
+	ft_arrlst_del(&champions);
+	vm->gv = gv;
+//	print_vm(vm);
+	while ((*gv->program_active)(gv->data))
+	{
+		int status = scheduler_step(vm);
+		if (status == 1)
+			(*gv->game_over)(gv->data, vm);
+		if (status != 0)
+			break;
+		(*gv->render)(gv->data, vm);
+		// SDL_Delay(1000 / 60);
+		// usleep(1000000 / 60);
+	}
+	(*gv->cleanup)(gv->data);
 	vm_free(vm);
 	return (0);
 }

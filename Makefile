@@ -1,6 +1,12 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror -g
+CFLAGS=-Wall -Wextra -Werror -g -fsanitize=address
 RM=rm -rf
+# LIB		=	-L frameworks/SDL2.framework/lib -l SDL2 -L frameworks/SDL2_ttf.framework/lib -l SDL2_ttf
+# INCLUDE	=	-Iincludes -Iframeworks/SDL2.framework/includes/SDL2 -Iframeworks/SDL2_ttf.framework/includes
+# VISU_LIB=-L ~/.brew/Cellar/sdl2/2.0.9_1/lib -l SDL2-2.0.0 -L ~/.brew/Cellar/sdl2_ttf/2.0.15/lib -l SDL2_ttf-2.0.0
+# VISU_INCLUDE=-Iincludes -I $(HOME)/.brew/Cellar/sdl2/2.0.9_1/include/SDL2 -I $(HOME)/.brew/Cellar/sdl2_ttf/2.0.15/include/SDL2
+VISU_LIB=-L frameworks/SDL2.framework/lib -l SDL2 -L frameworks/SDL2_ttf.framework/lib -l SDL2_ttf
+VISU_INCLUDE=-Iincludes -Iframeworks/SDL2.framework/includes/SDL2 -Iframeworks/SDL2_ttf.framework/includes
 
 SRC_DIR=src/
 BIN_DIR=bin/
@@ -13,6 +19,7 @@ VM_OBJS=$(addprefix $(BIN_DIR), mem.o scheduler.o mem_block.o process.o decode_a
 		in_zjmp.o in_ldi.o in_lld.o in_lldi.o \
 		in_fork.o in_lfork.o in_aff.o in_sti.o \
 		visualizer_text_1.o visualizer_text_2.o)
+VISUALIZER_OBJS=$(addprefix $(BIN_DIR), visualizer_sdl.o helper.o init.o play.o play_info.o start1.o start2.o itoa_base.o)
 COMMON_OBJS=$(addprefix $(BIN_DIR), op.o)
 TEST_OBJS=$(addprefix $(BIN_DIR), test_mem.o test_scheduler.o test_mem_block.o test_process.o test_decode_arg_list.o \
 		  test_in_live.o test_in_ld.o test_in_add.o test_in_sub.o \
@@ -32,13 +39,13 @@ $(BIN_DIR)asm_main.o: $(SRC_DIR)asm/main.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BIN_DIR)vm_main.o: $(SRC_DIR)vm/main.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ $(VISU_INCLUDE)
 
 $(NAME_ASM): $(ASM_OBJS) $(COMMON_OBJS) $(BIN_DIR)asm_main.o -lft
 	$(CC) $(CFLAGS) $(ASM_OBJS) $(COMMON_OBJS) $(BIN_DIR)asm_main.o -o $(NAME_ASM) -L $(LIBFT) -lft
 
-$(NAME_VM): $(VM_OBJS) $(COMMON_OBJS) $(BIN_DIR)vm_main.o -lft
-	$(CC) $(CFLAGS) $(VM_OBJS) $(COMMON_OBJS) $(BIN_DIR)vm_main.o -o $(NAME_VM) -L $(LIBFT) -lft
+$(NAME_VM): $(VM_OBJS) $(VISUALIZER_OBJS) $(COMMON_OBJS) $(BIN_DIR)vm_main.o -lft #$(VISU_INCLUDE)
+	$(CC) $(CFLAGS) $(VM_OBJS) $(VISUALIZER_OBJS) $(COMMON_OBJS) $(BIN_DIR)vm_main.o -o $(NAME_VM) -L $(LIBFT) -lft $(VISU_LIB)
 
 ################ LIBFT ################
 
@@ -57,7 +64,10 @@ $(ASM_OBJS): $(BIN_DIR)%.o: $(SRC_DIR)asm/%.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(VM_OBJS): $(BIN_DIR)%.o: $(SRC_DIR)vm/%.c | $(BIN_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ $(VISU_INCLUDE)
+
+$(VISUALIZER_OBJS): $(BIN_DIR)%.o: $(SRC_DIR)visualizer/%.c | $(BIN_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(VISU_INCLUDE)
 
 $(COMMON_OBJS): $(BIN_DIR)%.o: $(SRC_DIR)%.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@

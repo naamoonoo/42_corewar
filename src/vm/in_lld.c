@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 20:26:24 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/13 21:26:17 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/16 19:30:42 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	in_lld(t_vm *vm, t_process *process, t_visualizer *gv)
 		return ;
 	value = arg_list_read(args, 0, gv, process);
 	process->carry = (value == 0);
-	arg_list_write(args, 1, value, gv, process);
+	if (gv != NULL)
+		gv->process = process;
+	arg_list_write(args, 1, value, gv);
 	free(args);
 }

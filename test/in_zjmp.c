@@ -15,7 +15,7 @@ START_TEST (test_in_zjmp)
 	mem->next->data = 0x00;
 	mem->next->next->data = 0x01;
 	process->carry = FALSE;
-	in_zjmp(NULL, process);
+	in_zjmp(NULL, process, NULL);
 	ck_assert_ptr_eq(process->pc, mem->next->next->next);
 
 	// zjmp %1
@@ -24,26 +24,26 @@ START_TEST (test_in_zjmp)
 	mem->next->next->data = 0x01;
 	process->carry = TRUE;
 	process->pc = mem;
-	in_zjmp(NULL, process);
+	in_zjmp(NULL, process, NULL);
 	ck_assert_ptr_eq(process->pc, mem->next);
 
 	// zjmp %-1
 	mem->next->data = 0x09;
 	mem->next->next->data = 0xFF;
 	mem->next->next->next->data = 0xFF;
-	in_zjmp(NULL, process);
+	in_zjmp(NULL, process, NULL);
 	ck_assert_ptr_eq(process->pc, mem);
 
 	// zjmp %IDX_MOD+1
 	mem->data = 0x09;
 	mem_write_ind(mem->next, IDX_MOD + 1);
-	in_zjmp(NULL, process);
+	in_zjmp(NULL, process, NULL);
 	ck_assert_ptr_eq(process->pc, mem->next);
 
 	// zjmp %-IDX_MOD-1
 	mem->next->data = 0x09;
 	mem_write_ind(mem->next->next, 0 - IDX_MOD - 1);
-	in_zjmp(NULL, process);
+	in_zjmp(NULL, process, NULL);
 	ck_assert_ptr_eq(process->pc, mem);
 }
 END_TEST

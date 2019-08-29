@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mem_block.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/07 18:43:12 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/11 20:32:35 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/29 00:02:06 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ t_mem	*mem_block_create(unsigned int size)
 	while (i < size)
 	{
 		mem_block[i].data = 0;
+		// mem_block[i].is_instruction = 0;
+		mem_block[i].owner = NULL;
 		mem_block[i].prev = mem_block + i - 1;
 		mem_block[i].next = mem_block + i + 1;
 		i++;
@@ -66,7 +68,7 @@ void	mem_block_free(t_mem *mem_block)
 	free(mem_block);
 }
 
-void	mem_write_from_buffer(t_mem *mem, char *buff, unsigned int size)
+void	mem_write_from_buffer(t_mem *mem, char *buff, unsigned int size, t_champion *champ)
 {
 	unsigned int i;
 
@@ -74,7 +76,24 @@ void	mem_write_from_buffer(t_mem *mem, char *buff, unsigned int size)
 	while (i < size)
 	{
 		mem->data = buff[i];
+		mem->owner = champ->filename;
+		mem->text = NULL;
 		mem = mem->next;
 		i++;
 	}
+}
+
+t_mem	*mem_ptr_add(t_mem *ptr, int offset)
+{
+	while (offset > 0)
+	{
+		ptr = ptr->next;
+		offset--;
+	}
+	while (offset < 0)
+	{
+		ptr = ptr->prev;
+		offset++;
+	}
+	return (ptr);
 }

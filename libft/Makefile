@@ -27,7 +27,8 @@ OBJS_PERSONAL=ft_abs.o ft_itoa_base.o ft_itoa_base_u.o ft_lstappend.o \
 			  ft_arrlst_del.o ft_arrlst_isempty.o ft_arrlst_get.o \
 			  ft_arrlst_remove_last.o ft_arrlst_contains.o \
 			  ft_arrlst_add_arrlst.o ft_arrlst_add_arr.o ft_arrlst_set.o \
-			  ft_iswhite.o ft_strcmpi.o ft_strequi.o ft_error.o
+			  ft_iswhite.o ft_strcmpi.o ft_strequi.o ft_error.o \
+			  get_file.o ft_strjoin_by.o
 OBJS=$(OBJS_LIBC) $(OBJS_EXTRA) $(OBJS_BONUS) $(OBJS_PERSONAL)
 PROJ_GNL=get_next_line.o
 PROJ_PRINTF_SRC=$(wildcard ft_printf/*.c)

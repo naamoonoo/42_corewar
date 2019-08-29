@@ -3,22 +3,129 @@
 /*                                                        :::      ::::::::   */
 /*   visualizer.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/13 18:18:52 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/13 19:15:58 by nwhitlow         ###   ########.fr       */
+/*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
+/*   Updated: 2019/08/29 00:15:24 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef struct	s_visualizer
+#ifndef VISUALIZER_H
+# define VISUALIZER_H
+
+# include "../libft/libft.h"
+# include "corewar.h"
+
+# include <SDL.h>
+# include <SDL_ttf.h>
+
+# define WIDTH 2560
+# define HEIGHT 1600
+# define MAP_P_X 130
+# define MAP_P_Y 60
+# define MAP_SIZE_X 2360
+# define MAP_SIZE_Y 1400
+# define BOX_W (MAP_SIZE_X / 64)
+# define BOX_H (MAP_SIZE_Y / 64)
+
+# define BTN_X sdl->e.button.x
+# define BTN_Y sdl->e.button.y
+
+# define KEY sdl->e.key.keysym.sym
+
+# define R set.color.r
+# define G set.color.g
+# define B set.color.b
+# define A set.color.a
+
+# define C_BK (SDL_Color){0, 0, 0, 255}
+# define C_WH (SDL_Color){255, 255, 255, 255}
+# define C_BL (SDL_Color){0x36, 0x4f, 0x6b, 255}
+# define C_GREY (SDL_Color){0xea, 0xea, 0xea, 255}
+# define C_P1 (SDL_Color){0x41, 0x69, 0xe1, 255}
+# define C_P2 (SDL_Color){0x3a, 0x96, 0x79, 255}
+# define C_P3 (SDL_Color){0xfa, 0xbc, 0x60, 255}
+# define C_P4 (SDL_Color){0xe1, 0x62, 0x62, 255}
+# define C_BACK (SDL_Color){32, 101, 131, 255}
+
+# define NUM_OF_INFO 14
+# define NUM_OF_CHAMP 10
+
+typedef struct		s_set
 {
-	void		*data;
-	t_mem		*mem_start;
-	void		(*init)(void *gv_data);
-	void		(*instruction_read)(void *gv_data, int index);
-	void		(*instruction_fired)(void *gv_data, int index);
-	void		(*process_lived)(void *gv_data, t_process *process);
-	void		(*memory_read)(void *gv_data, t_mem *address, int value);
-	void		(*memory_written)(void *gv_data, t_mem *address, int value);
-	void		(*update_misc)(void *gv_data, t_vm *vm);
-}				t_visualizer;
+	char			*text;
+	SDL_Rect		rect;
+	SDL_Color		color;
+}					t_set;
+
+typedef struct		s_sdl
+{
+	SDL_Window		*win;
+	SDL_Surface		*scr;
+	SDL_Renderer	*ren;
+	SDL_Event		e;
+	SDL_Texture		*tex[NUM_OF_INFO];
+	SDL_Rect		rect[NUM_OF_INFO];
+	SDL_Texture		*champ_tex[NUM_OF_CHAMP];
+	SDL_Rect		champ_rect[NUM_OF_CHAMP];
+	t_set			selected_cmp[MAX_PLAYERS];
+	int				score[MAX_PLAYERS];
+	char			*curr_champs[NUM_OF_CHAMP];
+	int				nb_of_p;
+	int				fd;
+	char			*tmp;
+	char			**champs;
+	// char			**champ_names;
+	int				is_running;
+	int				is_quit;
+	int				in_show;
+	int				page;
+	// char			*selected_cmp[4];
+	int				ready;
+	int				w;
+	int				h;
+	t_mem			*mem_start;
+	TTF_Font		*font[2];
+	int				is_forked;
+}					t_sdl;
+
+/*
+**-----------------------main page---------------------------
+*/
+
+t_sdl				*sdl_init(void);
+
+void				event_handler(t_sdl *sdl);
+void				end_process(t_sdl *sdl);
+
+/*
+**-----------------------start page---------------------------
+*/
+void				render_start_page(t_sdl *sdl);
+void				render_champs(t_sdl *sdl);
+int					render_start_text(t_sdl *sdl);
+int					render_start_box(t_sdl *sdl);
+void				destroy_start_page(t_sdl *sdl);
+
+int					is_clicked(t_sdl *sdl, SDL_Rect btn);
+int					is_existed(t_sdl *sdl, char *clicked);
+void				change_page(t_sdl *sdl);
+void				select_player(t_sdl *sdl);
+void				unselect_player(t_sdl *sdl);
+
+void				render_text(t_sdl *sdl, int idx);
+/*
+**-----------------------play page---------------------------
+*/
+void				render_play_page(t_sdl *sdl);
+void				render_play_box(t_sdl *sdl);
+void				render_play_text(t_sdl *sdl);
+
+void				render_empty_map(t_sdl *sdl);
+void				render_map(t_sdl *sdl);
+void				render_status_bar(t_sdl *sdl);
+
+
+void				free_char_pp(char **arr);
+char				*base_itoa(uint64_t n, int str_base, int len);
+#endif

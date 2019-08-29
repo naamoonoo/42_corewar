@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 20:26:35 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/13 21:24:33 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/16 19:31:02 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	in_st(t_vm *vm, t_process *process, t_visualizer *gv)
 	if (args == NULL)
 		return ;
 	value = arg_list_read(args, 0, gv, process);
-	arg_list_write(args, 1, value, gv, process);
+	if (gv != NULL)
+		gv->process = process;
+	arg_list_write(args, 1, value, gv);
 	free(args);
 }

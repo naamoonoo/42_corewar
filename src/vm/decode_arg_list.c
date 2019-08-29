@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 19:12:13 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/13 20:21:15 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/18 21:35:58 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	*parse_arg_reg(t_mem **mem, t_process *caller)
 	return (caller->registers + reg);
 }
 
-static void	decode_stub(t_arg_list *args, t_op op, t_process *caller, int uim)
+static int	decode_stub(t_arg_list *args, t_op op, t_process *caller, int uim)
 {
 	t_mem	*mem;
 	char	acb;
@@ -76,11 +76,17 @@ static void	decode_stub(t_arg_list *args, t_op op, t_process *caller, int uim)
 			args->args[i] = parse_arg_dir(&mem, op.dir_ind);
 		else if (args->arg_types[i] == IND_CODE)
 			args->args[i] = parse_arg_ind(&mem, caller, uim);
-		else
+		else if (args->arg_types[i] == REG_CODE)
 			args->args[i] = parse_arg_reg(&mem, caller);
+		else
+		{
+			caller->pc = mem;
+			return (FALSE);
+		}
 		i++;
 	}
 	caller->pc = mem;
+	return (((acb << (2 * i)) & 0xFF) == 0);
 }
 
 t_arg_list	*decode_arg_list(t_op op, t_process *caller, int uses_idx_mod)
@@ -90,7 +96,11 @@ t_arg_list	*decode_arg_list(t_op op, t_process *caller, int uses_idx_mod)
 	args = (t_arg_list *)malloc(sizeof(t_arg_list));
 	if (args == NULL)
 		return (NULL);
-	decode_stub(args, op, caller, uses_idx_mod);
+	if (!decode_stub(args, op, caller, uses_idx_mod))
+	{
+		free(args);
+		return (NULL);
+	}
 	if (valid_arg_list(op, args))
 		return (args);
 	else

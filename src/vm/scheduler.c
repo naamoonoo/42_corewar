@@ -6,7 +6,7 @@
 /*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/05 13:58:01 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/13 20:40:42 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/23 15:38:52 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,14 @@ void		purge_list(t_process **p_list)
 			hold->next = hold->next->next;
 			free(free_this);
 		}
-		else if (!(hold->alive = 0))
+		else if (!(hold->next->alive = 0))
 			hold = hold->next;
 	}
 }
 
 void		decriment_cycles(t_vm *vm, t_process **p_list, int cycle_decriment)
 {
+	ft_printf("Waiting %d cycles\n", cycle_decriment);
 	t_process	*process;
 
 	vm->total_processes = 0;
@@ -105,31 +106,26 @@ static int	purge(t_vm *vm)
 		vm->delta += CYCLE_DELTA;
 		vm->rounds_since_decrease = 0;
 	}
-	if (vm->delta > CYCLE_TO_DIE)
+	if (vm->delta > CYCLE_TO_DIE) // TODO the vm should run one more cycle and then re-purge
 		return (1);
 	vm->cycles_to_die = CYCLE_TO_DIE - vm->delta;
 	vm->lives_this_round = 0;
 	return (0);
 }
 
-int			scheduler(t_vm *vm)
+int			scheduler_step(t_vm *vm)
 {
 	int	cycles_to_wait;
 	int game_over;
 
-	while (AARON == AWESOME)
+	if (vm->cycles_to_die == 0)
 	{
-		if (vm->cycles_to_die == 0)
-		{
-			game_over = purge(vm);
-			if (game_over)
-				return (0);
-		}
-		cycles_to_wait = get_min_cycles_to_wait(vm->p_list, vm->cycles_to_die);
-		vm->cycles_to_die -= cycles_to_wait;
-		decriment_cycles(vm, &vm->p_list, cycles_to_wait);
-		if (vm->dump && (vm->total_cycles >= vm->dump_after))
+		game_over = purge(vm);
+		if (game_over)
 			return (1);
-		(*vm->gv->update_misc)(vm->gv->data, vm);
 	}
+	cycles_to_wait = get_min_cycles_to_wait(vm->p_list, vm->cycles_to_die);
+	vm->cycles_to_die -= cycles_to_wait;
+	decriment_cycles(vm, &vm->p_list, cycles_to_wait);
+	return (0);
 }

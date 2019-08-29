@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 16:39:18 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/13 21:15:50 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/28 15:58:18 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,6 @@ char		*vm_get_champ_name(t_vm *vm, int champ_id)
 	return (NULL);
 }
 
-t_vm		*vm_new(void)
-{
-	t_vm *vm;
-
-	vm = (t_vm *)malloc(sizeof(t_vm));
-	if (vm == NULL)
-		return (NULL);
-	vm->num_champions = 0;
-	vm->p_list = NULL;
-	vm->last_alive = 0;
-	vm->memory = mem_block_create(MEM_SIZE);
-	if (vm->memory == NULL)
-	{
-		free(vm);
-		return (NULL);
-	}
-	vm->lives_this_round = 0;
-	vm->rounds_since_decrease = 0;
-	vm->cycles_to_die = CYCLE_TO_DIE;
-	vm->delta = 0;
-	vm->total_cycles = 0;
-	// TODO malloc check
-	vm->gv = visualizer_text_new();
-	return (vm);
-}
-
 static int	vm_add_champion(t_vm *vm, t_champion *champ, int separation, int i)
 {
 	t_mem		*champ_start;
@@ -59,7 +33,7 @@ static int	vm_add_champion(t_vm *vm, t_champion *champ, int separation, int i)
 
 	vm->champions[i] = champ;
 	champ_start = mem_ptr_add(vm->memory, separation * i);
-	mem_write_from_buffer(champ_start, champ->bytecode, champ->size);
+	mem_write_from_buffer(champ_start, champ->bytecode, champ->size, champ);
 	champ_process = process_new(champ->number, champ_start);
 	champ_process->owner = champ;
 	if (champ_process == NULL)
@@ -69,7 +43,7 @@ static int	vm_add_champion(t_vm *vm, t_champion *champ, int separation, int i)
 	return (0);
 }
 
-int			vm_add_champions(t_vm *vm, t_arrlst *champions)
+static int	vm_add_champions(t_vm *vm, t_arrlst *champions)
 {
 	int			i;
 	t_champion	*champ;
@@ -90,8 +64,35 @@ int			vm_add_champions(t_vm *vm, t_arrlst *champions)
 			return (-1);
 		i++;
 	}
-	vm->last_alive = vm->champions[0]->number;
+	vm->last_alive = vm->champions[vm->num_champions - 1]->number;
 	return (0);
+}
+
+t_vm		*vm_new(t_arrlst *champions)
+{
+	t_vm *vm;
+
+	vm = (t_vm *)malloc(sizeof(t_vm));
+	if (vm == NULL)
+		return (NULL);
+	vm->p_list = NULL;
+	vm->memory = mem_block_create(MEM_SIZE);
+	if (vm->memory == NULL)
+	{
+		free(vm);
+		return (NULL);
+	}
+	vm->lives_this_round = 0;
+	vm->rounds_since_decrease = 0;
+	vm->cycles_to_die = CYCLE_TO_DIE;
+	vm->delta = 0;
+	vm->total_cycles = 0;
+	if (vm_add_champions(vm, champions) == -1)
+	{
+		free(vm);
+		return (NULL);
+	}
+	return (vm);
 }
 
 void		vm_free(t_vm *vm)
