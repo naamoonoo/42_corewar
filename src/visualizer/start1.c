@@ -52,13 +52,14 @@ void	render_champs(t_sdl *sdl)
 	{
 		if (sdl->curr_champs[idx])
 		{
-			if ((len = 40 * ft_strlen(sdl->curr_champs[idx])) > 520)
+			if ((len = 30 * ft_strlen(sdl->curr_champs[idx])) > 520)
 				len = 520;
 			sdl->champ_rect[idx] = (SDL_Rect){260, 570 + idx * 80, len, 40};
 		}
 		else
 			sdl->champ_rect[idx] = (SDL_Rect){260, 570 + idx * 80, 0, 40};
-		sdl->scr = TTF_RenderText_Solid(sdl->font[0], sdl->curr_champs[idx], C_BK);
+		// sdl->scr = TTF_RenderText_Solid(sdl->font[0], sdl->curr_champs[idx], C_BK);
+		render_only_name(sdl, sdl->curr_champs[idx], &sdl->champ_rect[idx]);
 		sdl->champ_tex[idx] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
 	}
 }

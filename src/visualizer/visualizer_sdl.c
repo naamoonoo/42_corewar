@@ -6,12 +6,14 @@ t_sdl	*sdl_init(void);
 void	visualizer_sdl_process_lived(void *data, t_process *process)
 {
 	UNUSED(data);
+	return ;
 	ft_printf("process %d lived\n", process->pid);
 }
 
 void	visualizer_sdl_memory_read(void *data, t_mem *address, int value, t_process *process)
 {
 	UNUSED(data);
+	return ;
 	ft_printf("%s #%d (color %.8X) read %d from %p\n", process->owner->name, process->pid, process->owner->color, value, address);
 }
 
@@ -20,12 +22,13 @@ void	visualizer_sdl_memory_written(void *data, t_mem *address, int value, t_proc
 	t_sdl	*sdl;
 
 	sdl = (t_sdl *)data;
-	ft_printf("%s #%d (color %.8X) wrote value %d to %p\n", process->owner->name, process->pid, process->owner->color, value, address);
 	address->owner = process->owner->filename;
 	address->next->owner = process->owner->filename;
 	address->next->next->owner= process->owner->filename;
 	address->next->next->next->owner = process->owner->filename;
 	address->is_instruction = 1;
+	return ;
+	ft_printf("%s #%d (color %.8X) wrote value %d to %p\n", process->owner->name, process->pid, process->owner->color, value, address);
 }
 
 void	get_pc(t_sdl *sdl, t_vm *vm)
@@ -66,6 +69,7 @@ void	visualizer_sdl_render(void *data, t_vm *vm)
 	SDL_SetRenderDrawColor(sdl->ren, 0xda, 0xdd, 0xdf, 0);
 	SDL_RenderPresent(sdl->ren);
 	SDL_Delay(1000 / 60);
+	return ;
 	ft_printf("Cycle %d\n", vm->total_cycles);
 }
 
@@ -85,12 +89,14 @@ void	visualizer_sdl_init(void *data, int argc, char **argv)
 void	visualizer_sdl_instruction_read(void *data, t_mem *address)
 {
 	UNUSED(data);
+	return ;
 	ft_printf("instruction %d read at address %p\n", address->data, address);
 }
 
 void	visualizer_sdl_instruction_fired(void *data, t_mem *address)
 {
 	UNUSED(data);
+	return ;
 	ft_printf("instruction fired at address %p\n", address);
 }
 
@@ -108,10 +114,13 @@ void	visualizer_sdl_game_over(void *data, t_vm *vm)
 {
 	int		winner_id;
 	char	*winner_name;
+	t_sdl	*sdl;
 
-	UNUSED(data);
+	sdl = (t_sdl *)data;
 	winner_id = vm->last_alive;
 	winner_name = vm_get_champ_name(vm, winner_id);
+	render_finish(sdl, winner_id, winner_name);
+	return ;
 	ft_printf("Player %d (%s) won\n", winner_id, winner_name);
 }
 

@@ -18,6 +18,27 @@ t_set	g_play_text[] =
 	{"aderby, drosa-ta, nwhitlow, hnam", (SDL_Rect){1820, 1530, 20 * 29, 20}, C_BL},
 };
 
+void	render_only_name(t_sdl *sdl, char *text, SDL_Rect *rect)
+{
+	char	**path;
+	char	**tmp;
+	int		k;
+	int		len;
+
+	k = 0;
+	if (!text)
+		return ;
+	path = ft_strsplit(text, '/');
+	while (path[k] && path[k + 1])
+		k++;
+	tmp = ft_strsplit(path[k], '.');
+	sdl->scr = TTF_RenderText_Solid(sdl->font[1], tmp[0], C_BK);
+	if (rect)
+		rect->w = ((len = ft_strlen(tmp[0]) * 40) > 520) ? 520 : len;
+	free_char_pp(tmp);
+	free_char_pp(path);
+}
+
 void	render_play_page(t_sdl *sdl)
 {
 	static int	first = 0;
@@ -71,8 +92,11 @@ void	render_play_text(t_sdl *sdl)
 		set.rect.h -= 10;
 		set.rect.w -= 10;
 		sdl->champ_rect[i] = set.rect;
-		sdl->scr = TTF_RenderText_Solid(sdl->font[1], sdl->selected_cmp[i].text, C_BK);
+		// get name!
+		// sdl->scr = TTF_RenderText_Solid(sdl->font[1], sdl->champ_name[i], C_BK);
+		render_only_name(sdl, sdl->selected_cmp[i].text, NULL);
 		sdl->champ_tex[i] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
+		printf("[%d] %s\n", i, sdl->selected_cmp[i].text);
 	}
 	i = -1;
 	while (++i < 2)

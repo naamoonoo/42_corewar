@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:00:42 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/29 00:20:32 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/29 08:21:12 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	get_champ_name(t_sdl *sdl)
 	{
 		sdl->selected_cmp[i].text = NULL;
 		sdl->score[i] = 0;
+		sdl->champ_name[i] = NULL;
 	}
 	sdl->selected_cmp[0].color = C_P1;
 	sdl->selected_cmp[1].color = C_P2;
@@ -57,8 +58,7 @@ t_sdl	*sdl_init(void)
 	sdl->font[1] = TTF_OpenFont("src/visualizer/gameboy.ttf", 12);
 	SDL_RenderSetLogicalSize(sdl->ren, WIDTH, HEIGHT);
 	SDL_SetRenderDrawColor(sdl->ren, 169, 169, 169, 0);
-	SDL_SetRenderDrawBlendMode(sdl->ren, SDL_BLENDMODE_BLEND);
-
+	// SDL_SetRenderDrawBlendMode(sdl->ren, SDL_BLENDMODE_BLEND);
 	sdl->in_show = 0;
 	sdl->is_running = 1;
 	sdl->is_quit = 0;

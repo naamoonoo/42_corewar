@@ -91,31 +91,17 @@ void	render_map(t_sdl *sdl)
 		else if (tmp->is_instruction)
 			color_adjust(&color, 0.85);
 		SDL_SetRenderDrawColor(sdl->ren, color.r, color.g, color.b, 255);
-		// tmp->rect = (SDL_Rect){MAP_P_X + (i % 64) * BOX_W + 1,
-		// MAP_P_Y + (i  / 64) * BOX_H + 1, BOX_W - 2, BOX_H - 2};
 		SDL_RenderFillRect(sdl->ren, &tmp->rect);
 		if (sdl->in_show && tmp->is_instruction)
 			render_instruction(sdl, tmp);
-		// else if (sdl->in_show == 0 && time > 0 && tmp->text)
-		// {
-		// 	free(tmp->text);
-		// 	SDL_DestroyTexture(tmp->tex);
-		// }
-
+		else if (!sdl->in_show && tmp->text)
+		{
+			free(tmp->text);
+			tmp->text = NULL;
+			SDL_DestroyTexture(tmp->tex);
+		}
 		tmp = tmp->next;
 	}
-	// if (sdl->in_show)
-	// 	time++;
-	// if (sdl->in_show == 0 && time > 0)
-	// {
-	// 	tmp = sdl->mem_start;
-	// 	while (tmp)
-	// 	{
-	// 		free(mem->text);
-	// 		SDL_DestroyTexture(mem->tex);
-	// 		tmp = tmp->next
-	// 	}
-	// }
 }
 
 void	render_status_bar(t_sdl *sdl)
@@ -143,6 +129,19 @@ void	render_status_bar(t_sdl *sdl)
 	}
 }
 
+void	render_finish(t_sdl *sdl, int p_num, char *p_name)
+{
+	t_set	set;
+
+	set = sdl->selected_cmp[p_num - 1];
+	SDL_SetRenderDrawColor(sdl->ren, R, G, B, A);
+	SDL_RenderFillRect(sdl->ren, &(SDL_Rect){MAP_P_X, 600, MAP_SIZE_X, 400});
+	sdl->scr = TTF_RenderText_Solid(sdl->font[1], p_name, C_BK);
+	sdl->tex[2] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
+	SDL_RenderCopy(sdl->ren, sdl->tex[2], NULL, &((SDL_Rect){
+		MAP_P_X + 20, 600 + 20, MAP_SIZE_X - 40 , 400 - 40
+	}));
+}
 
 // void	render_map(t_sdl *sdl, int size_x, int size_y)
 // {

@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/29 00:15:24 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/29 08:57:15 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct		s_sdl
 	SDL_Rect		champ_rect[NUM_OF_CHAMP];
 	t_set			selected_cmp[MAX_PLAYERS];
 	int				score[MAX_PLAYERS];
+	char			*champ_name[MAX_PLAYERS];
 	char			*curr_champs[NUM_OF_CHAMP];
 	int				nb_of_p;
 	int				fd;
@@ -80,13 +81,9 @@ typedef struct		s_sdl
 	int				is_quit;
 	int				in_show;
 	int				page;
-	// char			*selected_cmp[4];
 	int				ready;
-	int				w;
-	int				h;
 	t_mem			*mem_start;
 	TTF_Font		*font[2];
-	int				is_forked;
 }					t_sdl;
 
 /*
@@ -124,6 +121,8 @@ void				render_play_text(t_sdl *sdl);
 void				render_empty_map(t_sdl *sdl);
 void				render_map(t_sdl *sdl);
 void				render_status_bar(t_sdl *sdl);
+void				render_only_name(t_sdl *sdl, char *text, SDL_Rect *rect);
+void				render_finish(t_sdl *sdl, int p_num, char *p_name);
 
 
 void				free_char_pp(char **arr);

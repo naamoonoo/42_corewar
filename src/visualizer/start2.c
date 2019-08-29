@@ -30,7 +30,10 @@ int	render_start_text(t_sdl *sdl)
 		if (set.text && ft_strcmp(set.text, "START") == 0 && sdl->nb_of_p > 0)
 			set.color = C_WH;
 		sdl->rect[idx] = set.rect;
-		sdl->scr = TTF_RenderText_Solid(sdl->font[0], set.text, set.color);
+		if (idx >= 7 && idx <= 10 && set.text)
+			render_only_name(sdl, set.text, NULL);
+		else
+			sdl->scr = TTF_RenderText_Solid(sdl->font[0], set.text, set.color);
 		sdl->tex[idx] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
 	}
 	return (0);
