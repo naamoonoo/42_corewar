@@ -14,8 +14,8 @@ t_set	g_play_sets[] =
 
 t_set	g_play_text[] =
 {
-	{"COREWAR", (SDL_Rect){1600, 1440, 600, 200}, C_BL},
-	{"aderby, drosa-ta, nwhitlow, hnam", (SDL_Rect){1600, 1660, 20 * 29, 20}, C_BL},
+	{"COREWAR", (SDL_Rect){1820, 1410, 600, 100}, C_BL},
+	{"aderby, drosa-ta, nwhitlow, hnam", (SDL_Rect){1820, 1530, 20 * 29, 20}, C_BL},
 };
 
 void	render_play_page(t_sdl *sdl)
@@ -35,6 +35,9 @@ void	render_play_page(t_sdl *sdl)
 	while (++i < sdl->nb_of_p)
 		SDL_RenderCopy(sdl->ren, sdl->champ_tex[i],
 			NULL, &(sdl->champ_rect[i]));
+	i = -1;
+	while (++i < 2)
+		SDL_RenderCopy(sdl->ren, sdl->tex[i], NULL, &(sdl->rect[i]));
 
 }
 
