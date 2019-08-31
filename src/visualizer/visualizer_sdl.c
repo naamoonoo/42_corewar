@@ -101,6 +101,7 @@ void	visualizer_sdl_init(void *data, int argc, char **argv)
 		sdl->selected_cmp[idx++].text = ft_strdup(argv[i]);
 		sdl->nb_of_p += 1;
 	}
+	sdl->is_init = 1;
 }
 
 void	visualizer_sdl_instruction_read(void *data, t_mem *address)

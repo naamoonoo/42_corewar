@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   start2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/31 03:12:47 by hnam              #+#    #+#             */
+/*   Updated: 2019/08/31 03:28:10 by hnam             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/visualizer.h"
 
 t_set	g_text_sets[] =
@@ -15,10 +27,11 @@ t_set	g_text_sets[] =
 	{NULL, (SDL_Rect){1930, 1060, 400, 80}, C_BK},
 	{"PREV", (SDL_Rect){260, 1430, 120, 30}, C_BK},
 	{"NEXT", (SDL_Rect){450, 1430, 120, 30}, C_BK},
-	{"aderby, drosa-ta, nwhitlow, hnam", (SDL_Rect){1700, 300, 20 * 29, 20}, C_BL},
+	{"aderby, drosa-ta, nwhitlow, hnam",
+		(SDL_Rect){1700, 300, 20 * 29, 20}, C_BL},
 };
 
-int	render_start_text(t_sdl *sdl)
+int		render_start_text(t_sdl *sdl)
 {
 	int		idx;
 	t_set	set;

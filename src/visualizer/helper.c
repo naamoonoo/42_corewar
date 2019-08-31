@@ -6,13 +6,13 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:02:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/31 00:05:00 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/31 03:26:23 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/visualizer.h"
 
-int	is_clicked(t_sdl *sdl, SDL_Rect btn)
+int		is_clicked(t_sdl *sdl, SDL_Rect btn)
 {
 	if ((BTN_X >= btn.x && BTN_X <= btn.x + btn.w) &&
 		(BTN_Y >= btn.y && BTN_Y <= btn.y + btn.h))
@@ -43,36 +43,63 @@ void	event_handler(t_sdl *sdl)
 
 void	end_process(t_sdl *sdl)
 {
-	int i;
+	int		i;
 
 	i = -1;
 	SDL_DestroyRenderer(sdl->ren);
 	SDL_DestroyWindow(sdl->win);
-	// while (++i < NUM_OF_INFO)
-	// 	SDL_DestroyTexture(sdl->tex[i]);
+	while (++i < 5)
+		SDL_DestroyTexture(sdl->tex[i]);
+	if (sdl->mem_start->text)
+	{
+		i = -1;
+		while (++i < MEM_SIZE)
+		{
+			free(sdl->mem_start->text);
+			SDL_DestroyTexture(sdl->mem_start->tex);
+			sdl->mem_start = sdl->mem_start->next;
+		}
+	}
+	if (sdl->is_init)
+	{
+		i = -1;
+		while (++i < sdl->nb_of_p)
+			free(sdl->selected_cmp[i].text);
+	}
+	free_char_pp(sdl->champs);
 	TTF_Quit();
 	SDL_Quit();
 	free(sdl);
 }
 
-// char	*get_champ_name(t_sdl *sdl, int idx)
-// {
-// 	char	**tmp;
-// 	int		i;
+void	render_only_name(t_sdl *sdl, char *text, SDL_Rect *rect)
+{
+	char	**path;
+	char	**tmp;
+	int		k;
+	int		len;
 
-// 	i = -1;
-// 	tmp = ft_strsplit(sdl->champs[sdl->page * 10 + idx], '/');
-// 	while (tmp[i])
-// 		i++;
-// 	sdl->curr_champs[idx] = ft_strdup[]
-// }
+	k = 0;
+	if (!text)
+		return ;
+	path = ft_strsplit(text, '/');
+	while (path[k] && path[k + 1])
+		k++;
+	tmp = ft_strsplit(path[k], '.');
+	sdl->scr = TTF_RenderText_Solid(sdl->font[0], tmp[0], C_BK);
+	if (rect)
+		if ((len = ft_strlen(tmp[0]) * 40) > 520)
+			len = 520;
+	free_char_pp(tmp);
+	free_char_pp(path);
+}
 
-void		free_char_pp(char **arr)
+void	free_char_pp(char **arr)
 {
 	int	i;
 
 	i = -1;
-	while(arr[++i])
+	while (arr[++i])
 		free(arr[i]);
 	free(arr);
 }

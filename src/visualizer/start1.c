@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   start1.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/31 03:27:18 by hnam              #+#    #+#             */
+/*   Updated: 2019/08/31 03:27:19 by hnam             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/visualizer.h"
 
 t_set	g_start_sets[] =
@@ -58,13 +70,12 @@ void	render_champs(t_sdl *sdl)
 		}
 		else
 			sdl->champ_rect[idx] = (SDL_Rect){260, 570 + idx * 80, 0, 40};
-		// sdl->scr = TTF_RenderText_Solid(sdl->font[0], sdl->curr_champs[idx], C_BK);
 		render_only_name(sdl, sdl->curr_champs[idx], &sdl->champ_rect[idx]);
 		sdl->champ_tex[idx] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
 	}
 }
 
-int	render_start_box(t_sdl *sdl)
+int		render_start_box(t_sdl *sdl)
 {
 	t_set		set;
 	int			idx;

@@ -1,48 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   play2.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/31 03:12:12 by hnam              #+#    #+#             */
+/*   Updated: 2019/08/31 03:28:56 by hnam             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/visualizer.h"
-
-
-
-SDL_Color	get_color_of(char *champ, t_sdl *sdl)
-{
-	int		i;
-
-	i = -1;
-	while (sdl->selected_cmp[++i].text)
-	{
-		if (strcmp(sdl->selected_cmp[i].text, champ) == 0)
-		{
-			sdl->score[i] += 1;
-			return (sdl->selected_cmp[i].color);
-		}
-	}
-	return (C_WH);
-}
-
-void	color_adjust(SDL_Color *color, double percent)
-{
-	color->r *= percent;
-	color->g *= percent;
-	color->b *= percent;
-}
-
-void	render_empty_map(t_sdl *sdl)
-{
-	int	x;
-	int	y;
-
-	y = -1;
-	while (++y <= 64)
-	{
-		x = -1;
-		while (++x <= 64)
-		{
-			SDL_SetRenderDrawColor(sdl->ren, 255, 255, 255, 255);
-			SDL_RenderFillRect(sdl->ren, &(SDL_Rect){
-				MAP_P_X + x * BOX_W + 1, MAP_P_Y + y * BOX_H + 1,
-				BOX_W - 2, BOX_H - 2});
-		}
-	}
-}
 
 /*
 ** https://discourse.libsdl.org/t/sdl2-ttf-text-rendering-slow-how-to-make-faster/21068/4
