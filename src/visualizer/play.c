@@ -92,21 +92,21 @@ void	render_map(t_sdl *sdl)
 			color_adjust(&color, 0.85);
 		SDL_SetRenderDrawColor(sdl->ren, color.r, color.g, color.b, 255);
 		SDL_Rect	rect = tmp->rect;
-		if (sdl->in_show && tmp->is_instruction)
-		{
-			rect.h += 10;
-			rect.w += 10;
-			rect.x -= 5;
-			rect.y -= 5;
-			SDL_RenderFillRect(sdl->ren, &rect);
-			rect.h += 2;
-			rect.w += 2;
-			rect.x -= 1;
-			rect.y -= 1;
-			SDL_SetRenderDrawColor(sdl->ren, C_WH.r, C_WH.g, C_WH.b, 255);
-			SDL_RenderDrawRect(sdl->ren, &rect);
-		}
-		else
+		// if (sdl->in_show && tmp->is_instruction)
+		// {
+		// 	rect.h += 10;
+		// 	rect.w += 10;
+		// 	rect.x -= 5;
+		// 	rect.y -= 5;
+		// 	SDL_RenderFillRect(sdl->ren, &rect);
+		// 	rect.h += 2;
+		// 	rect.w += 2;
+		// 	rect.x -= 1;
+		// 	rect.y -= 1;
+		// 	SDL_SetRenderDrawColor(sdl->ren, C_WH.r, C_WH.g, C_WH.b, 255);
+		// 	SDL_RenderDrawRect(sdl->ren, &rect);
+		// }
+		// else
 			SDL_RenderFillRect(sdl->ren, &rect);
 		// SDL_RenderFillRect(sdl->ren, &tmp->rect);
 		if (sdl->in_show && tmp->is_instruction)
