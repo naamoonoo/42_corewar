@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 03:12:12 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/31 03:28:56 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/31 13:44:22 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,24 +120,24 @@ void	render_cycle_box(t_sdl *sdl, int cycle)
 	int			x;
 
 	x = -1;
-	while (++x < 15)
+	while (++x < 24)
 	{
-		SDL_SetRenderDrawColor(sdl->ren, C_P1.r + 13 * x,
-			C_P1.g + 5 * x, C_P1.b - 9 * x, 255);
-		SDL_RenderFillRect(sdl->ren, &(SDL_Rect){0, 1320 - (x * 90), 80, 85});
+		SDL_SetRenderDrawColor(sdl->ren, C_P1.r + 8 * x,
+			C_P1.g + 3 * x, C_P1.b - 6 * x, 255);
+		SDL_RenderFillRect(sdl->ren, &(SDL_Rect){0, 1350 - (x * 56), 80, 51});
 		if (cycle / CHUNK == x)
 		{
 			SDL_SetRenderDrawColor(sdl->ren, C_BK.r, C_BK.g, C_BK.b, 255);
 			SDL_RenderFillRect(sdl-> ren, &(SDL_Rect){
-				0, 1320 - (x * 90), 20, 85});
+				0, 1350 - (x * 56), 20, 51});
 			cycle -= cycle > CHUNK ? CHUNK * x : 0;
 		}
 	}
 	while (cycle > 0)
 	{
 		x = cycle / CHUNK;
-		SDL_SetRenderDrawColor(sdl->ren, C_P1.r + 13 * x,
-			C_P1.g + 5 * x, C_P1.b - 9 * x, 255);
+		SDL_SetRenderDrawColor(sdl->ren, C_P1.r + 8 * x,
+			C_P1.g + 3 * x, C_P1.b - 6 * x, 255);
 		SDL_RenderFillRect(sdl->ren, &(SDL_Rect){
 			2460, 1390 - ((cycle / 100) * 13), 60, 8});
 		cycle -= 100;

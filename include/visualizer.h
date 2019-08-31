@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/31 03:22:31 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/31 13:52:51 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@
 # define C_GREY (SDL_Color){0xea, 0xea, 0xea, 255}
 # define C_P1 (SDL_Color){0x41, 0x69, 0xe1, 255}
 # define C_P2 (SDL_Color){0x3a, 0x96, 0x79, 255}
-# define C_P3 (SDL_Color){0xfa, 0xbc, 0x60, 255}
-# define C_P4 (SDL_Color){0xe1, 0x62, 0x62, 255}
+# define C_P3 (SDL_Color){0xe1, 0x62, 0x62, 255}
+# define C_P4 (SDL_Color){0xfa, 0xbc, 0x60, 255}
 # define C_BACK (SDL_Color){32, 101, 131, 255}
 
 # define NUM_OF_INFO 14

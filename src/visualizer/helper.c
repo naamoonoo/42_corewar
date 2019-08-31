@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:02:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/31 03:26:23 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/31 13:47:23 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,11 @@ void	render_only_name(t_sdl *sdl, char *text, SDL_Rect *rect)
 	tmp = ft_strsplit(path[k], '.');
 	sdl->scr = TTF_RenderText_Solid(sdl->font[0], tmp[0], C_BK);
 	if (rect)
+	{
 		if ((len = ft_strlen(tmp[0]) * 40) > 520)
 			len = 520;
+		rect->w = len;
+	}
 	free_char_pp(tmp);
 	free_char_pp(path);
 }
