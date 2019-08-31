@@ -91,7 +91,24 @@ void	render_map(t_sdl *sdl)
 		else if (tmp->is_instruction)
 			color_adjust(&color, 0.85);
 		SDL_SetRenderDrawColor(sdl->ren, color.r, color.g, color.b, 255);
-		SDL_RenderFillRect(sdl->ren, &tmp->rect);
+		SDL_Rect	rect = tmp->rect;
+		if (sdl->in_show && tmp->is_instruction)
+		{
+			rect.h += 10;
+			rect.w += 10;
+			rect.x -= 5;
+			rect.y -= 5;
+			SDL_RenderFillRect(sdl->ren, &rect);
+			rect.h += 2;
+			rect.w += 2;
+			rect.x -= 1;
+			rect.y -= 1;
+			SDL_SetRenderDrawColor(sdl->ren, C_WH.r, C_WH.g, C_WH.b, 255);
+			SDL_RenderDrawRect(sdl->ren, &rect);
+		}
+		else
+			SDL_RenderFillRect(sdl->ren, &rect);
+		// SDL_RenderFillRect(sdl->ren, &tmp->rect);
 		if (sdl->in_show && tmp->is_instruction)
 			render_instruction(sdl, tmp);
 		else if (!sdl->in_show && tmp->text)
@@ -137,8 +154,8 @@ void	render_finish(t_sdl *sdl, int p_num, char *p_name)
 	SDL_SetRenderDrawColor(sdl->ren, R, G, B, A);
 	SDL_RenderFillRect(sdl->ren, &(SDL_Rect){MAP_P_X, 600, MAP_SIZE_X, 400});
 	sdl->scr = TTF_RenderText_Solid(sdl->font[1], p_name, C_BK);
-	sdl->tex[2] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
-	SDL_RenderCopy(sdl->ren, sdl->tex[2], NULL, &((SDL_Rect){
+	sdl->tex[5] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
+	SDL_RenderCopy(sdl->ren, sdl->tex[5], NULL, &((SDL_Rect){
 		MAP_P_X + 20, 600 + 20, MAP_SIZE_X - 40 , 400 - 40
 	}));
 }

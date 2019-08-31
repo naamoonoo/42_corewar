@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/07 19:36:58 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/23 15:13:50 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/29 11:05:07 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void		process_prepare_instruction(t_process *process, t_visualizer *gv)
 	op_code = process->pc->data;
 	if (op_code < 1 || op_code > MAX_OPS)
 	{
-		printf("process %d at %p found a NULL instruction (%d)\n", process->pid, process->pc, op_code);
+		// printf("process %d at %p found a NULL instruction (%d)\n", process->pid, process->pc, op_code);
 		process->instruction = &in_do_nothing;
 		process->cycles_to_wait = 1;
 		return ;
@@ -68,5 +68,5 @@ void		process_prepare_instruction(t_process *process, t_visualizer *gv)
 	op = &g_op_tab[op_code - 1];
 	process->cycles_to_wait = op->cycles;
 	(*gv->instruction_read)(gv->data, process->pc);
-	ft_printf("Getting ready to wait %d cycles\n", process->cycles_to_wait);
+	// ft_printf("Getting ready to wait %d cycles\n", process->cycles_to_wait);
 }

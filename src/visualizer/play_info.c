@@ -16,6 +16,9 @@ t_set	g_play_text[] =
 {
 	{"COREWAR", (SDL_Rect){1820, 1410, 600, 100}, C_BL},
 	{"aderby, drosa-ta, nwhitlow, hnam", (SDL_Rect){1820, 1530, 20 * 29, 20}, C_BL},
+	{"UP INSTRUCTION", (SDL_Rect){1500, 1440, 300, 35}, C_BK},
+	{"DOWN ONLY VISU", (SDL_Rect){1500, 1480, 200, 35}, C_BK},
+	{"ESC QUIT ", (SDL_Rect){1500, 1520, 200, 35}, C_BK},
 };
 
 void	render_only_name(t_sdl *sdl, char *text, SDL_Rect *rect)
@@ -57,7 +60,7 @@ void	render_play_page(t_sdl *sdl)
 		SDL_RenderCopy(sdl->ren, sdl->champ_tex[i],
 			NULL, &(sdl->champ_rect[i]));
 	i = -1;
-	while (++i < 2)
+	while (++i < 5)
 		SDL_RenderCopy(sdl->ren, sdl->tex[i], NULL, &(sdl->rect[i]));
 
 }
@@ -96,10 +99,9 @@ void	render_play_text(t_sdl *sdl)
 		// sdl->scr = TTF_RenderText_Solid(sdl->font[1], sdl->champ_name[i], C_BK);
 		render_only_name(sdl, sdl->selected_cmp[i].text, NULL);
 		sdl->champ_tex[i] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
-		printf("[%d] %s\n", i, sdl->selected_cmp[i].text);
 	}
 	i = -1;
-	while (++i < 2)
+	while (++i < 5)
 	{
 		set = g_play_text[i];
 		sdl->rect[i] = set.rect;

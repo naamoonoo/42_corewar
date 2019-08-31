@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scheduler.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/05 13:58:01 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/23 15:38:52 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/29 11:06:25 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void		purge_list(t_process **p_list)
 
 void		decriment_cycles(t_vm *vm, t_process **p_list, int cycle_decriment)
 {
-	ft_printf("Waiting %d cycles\n", cycle_decriment);
+	// ft_printf("Waiting %d cycles\n", cycle_decriment);
 	t_process	*process;
 
 	vm->total_processes = 0;
