@@ -91,24 +91,7 @@ void	render_map(t_sdl *sdl)
 		else if (tmp->is_instruction)
 			color_adjust(&color, 0.85);
 		SDL_SetRenderDrawColor(sdl->ren, color.r, color.g, color.b, 255);
-		SDL_Rect	rect = tmp->rect;
-		// if (sdl->in_show && tmp->is_instruction)
-		// {
-		// 	rect.h += 10;
-		// 	rect.w += 10;
-		// 	rect.x -= 5;
-		// 	rect.y -= 5;
-		// 	SDL_RenderFillRect(sdl->ren, &rect);
-		// 	rect.h += 2;
-		// 	rect.w += 2;
-		// 	rect.x -= 1;
-		// 	rect.y -= 1;
-		// 	SDL_SetRenderDrawColor(sdl->ren, C_WH.r, C_WH.g, C_WH.b, 255);
-		// 	SDL_RenderDrawRect(sdl->ren, &rect);
-		// }
-		// else
-			SDL_RenderFillRect(sdl->ren, &rect);
-		// SDL_RenderFillRect(sdl->ren, &tmp->rect);
+		SDL_RenderFillRect(sdl->ren, &tmp->rect);
 		if (sdl->in_show && tmp->is_instruction)
 			render_instruction(sdl, tmp);
 		else if (!sdl->in_show && tmp->text)
@@ -146,70 +129,49 @@ void	render_status_bar(t_sdl *sdl)
 	}
 }
 
-void	render_finish(t_sdl *sdl, int p_num, char *p_name)
+void	render_finish(t_sdl *sdl)
 {
 	t_set	set;
 
-	set = sdl->selected_cmp[p_num - 1];
-	SDL_SetRenderDrawColor(sdl->ren, R, G, B, A);
-	SDL_RenderFillRect(sdl->ren, &(SDL_Rect){MAP_P_X, 600, MAP_SIZE_X, 400});
-	sdl->scr = TTF_RenderText_Solid(sdl->font[1], p_name, C_BK);
+	set = sdl->selected_cmp[sdl->winner];
+	SDL_SetRenderDrawColor(sdl->ren, C_WH.r, C_WH.g, C_WH.b, A);
+	SDL_RenderFillRect(sdl->ren,
+		&(SDL_Rect){MAP_P_X - 40, 580, MAP_SIZE_X + 40, 440});
+	SDL_SetRenderDrawColor(sdl->ren, R * 0.75, G * 0.75, B * 0.75, A);
+	SDL_RenderFillRect(sdl->ren,
+		&(SDL_Rect){MAP_P_X - 20, 600, MAP_SIZE_X, 400});
+	render_only_name(sdl, set.text, NULL);
 	sdl->tex[5] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
 	SDL_RenderCopy(sdl->ren, sdl->tex[5], NULL, &((SDL_Rect){
 		MAP_P_X + 20, 600 + 20, MAP_SIZE_X - 40 , 400 - 40
 	}));
 }
 
-// void	render_map(t_sdl *sdl, int size_x, int size_y)
-// {
-// 	static int	i = 0;
-// 	static int	s = 0;
-// 	static int	j = 0;
-// 	int	BOX_W;
-// 	int	BOX_H;
-// 	int	x;
-// 	int	y;
+void	render_cycle_box(t_sdl *sdl, int cycle)
+{
+	int			x;
 
-// 	BOX_W = MAP_SIZE_X / size_x;
-// 	BOX_H = MAP_SIZE_Y / size_y;
-// 	y = -1;
-// 	if (i++ > 64)
-// 	{
-// 		i %= 64;
-// 		s += 1;
-// 	}
-// 	if (sdl->is_forked && j++ > 64)
-// 	{
-// 		j %= 64;
-// 		s += 1;
-// 	}
-// 	while (++y < size_y)
-// 	{
-// 		x = -1;
-// 		while (++x < size_x)
-// 		{
-// 			// if (x < 10 && y < 10)
-// 			// {
-// 				// printf("(%d * %d + %d)%d  == %d\n", y, x, x, y * x + x, i);
-// 				if (y * size_x + x <= s)
-// 				{
-// 					if (y * size_x + x == i || (sdl->is_forked && y * size_x + x == j))
-// 					{
-// 						SDL_SetRenderDrawColor(sdl->ren, 50, 155, 80, 255);
-// 						printf("drawing x : %d\t y : %d\n", x, y);
-// 					}
-// 					else
-// 						SDL_SetRenderDrawColor(sdl->ren, 10, 115, 40, 255);
-// 				}
-
-// 				else if (y * size_x + x == i || (sdl->is_forked && y * size_x + x == j))
-// 					SDL_SetRenderDrawColor(sdl->ren, 10, 10, 10, 255);
-// 				else
-// 					SDL_SetRenderDrawColor(sdl->ren, 255, 255, 255, 255);
-// 				SDL_RenderFillRect(sdl->ren, &(SDL_Rect){
-// 					MAP_P_X + x * BOX_W + 1, MAP_P_Y + y * BOX_H + 1,
-// 					BOX_W - 2, BOX_H - 2});
-// 			// }
-// 		}
-// 	}
-// }
+	x = -1;
+	while (++x < 15)
+	{
+		SDL_SetRenderDrawColor(sdl->ren, C_P1.r + 13 * x,
+			C_P1.g + 5 * x, C_P1.b - 9 * x, 255);
+		SDL_RenderFillRect(sdl->ren, &(SDL_Rect){0, 1320 - (x * 90), 80, 85});
+		if (cycle / CHUNK == x)
+		{
+			SDL_SetRenderDrawColor(sdl->ren, C_BK.r, C_BK.g, C_BK.b, 255);
+			SDL_RenderFillRect(sdl-> ren, &(SDL_Rect){
+				0, 1320 - (x * 90), 20, 85});
+			cycle -= cycle > CHUNK ? CHUNK * x : 0;
+		}
+	}
+	while (cycle > 0)
+	{
+		x = cycle / CHUNK;
+		SDL_SetRenderDrawColor(sdl->ren, C_P1.r + 13 * x,
+			C_P1.g + 5 * x, C_P1.b - 9 * x, 255);
+		SDL_RenderFillRect(sdl->ren, &(SDL_Rect){
+			2460, 1390 - ((cycle / 100) * 13), 60, 8});
+		cycle -= 100;
+	}
+}

@@ -16,9 +16,9 @@ t_set	g_play_text[] =
 {
 	{"COREWAR", (SDL_Rect){1820, 1410, 600, 100}, C_BL},
 	{"aderby, drosa-ta, nwhitlow, hnam", (SDL_Rect){1820, 1530, 20 * 29, 20}, C_BL},
-	{"UP INSTRUCTION", (SDL_Rect){1500, 1440, 300, 35}, C_BK},
-	{"DOWN ONLY VISU", (SDL_Rect){1500, 1480, 200, 35}, C_BK},
-	{"ESC QUIT ", (SDL_Rect){1500, 1520, 200, 35}, C_BK},
+	{"UP INSTRUCTION", (SDL_Rect){1500, 1440, 270, 30}, C_BK},
+	{"DOWN VISUALIZE", (SDL_Rect){1500, 1475, 270, 30}, C_BK},
+	{"ESC QUIT ", (SDL_Rect){1500, 1510, 200, 30}, C_BK},
 };
 
 void	render_only_name(t_sdl *sdl, char *text, SDL_Rect *rect)
@@ -35,7 +35,7 @@ void	render_only_name(t_sdl *sdl, char *text, SDL_Rect *rect)
 	while (path[k] && path[k + 1])
 		k++;
 	tmp = ft_strsplit(path[k], '.');
-	sdl->scr = TTF_RenderText_Solid(sdl->font[1], tmp[0], C_BK);
+	sdl->scr = TTF_RenderText_Solid(sdl->font[0], tmp[0], C_BK);
 	if (rect)
 		rect->w = ((len = ft_strlen(tmp[0]) * 40) > 520) ? 520 : len;
 	free_char_pp(tmp);
@@ -105,7 +105,7 @@ void	render_play_text(t_sdl *sdl)
 	{
 		set = g_play_text[i];
 		sdl->rect[i] = set.rect;
-		sdl->scr = TTF_RenderText_Solid(sdl->font[1], set.text, set.color);
+		sdl->scr = TTF_RenderText_Solid(sdl->font[0], set.text, set.color);
 		sdl->tex[i] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 16:33:02 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/28 02:08:43 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/31 00:27:23 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int			main(int argc, char **argv)
 		free(gv);
 		return (1);
 	}
-	(*gv->init)(gv->data, argc - i + 1, argv + i - 1); // TODO check failure
 	if (ft_arrlst_isempty(champions))
 	{
 		ft_arrlst_del(&champions);
@@ -102,6 +101,8 @@ int			main(int argc, char **argv)
 			return (1);
 		}
 	}
+	else
+		(*gv->init)(gv->data, argc, argv);
 	vm = vm_new(champions);
 	if (vm == NULL)
 	{
@@ -117,9 +118,9 @@ int			main(int argc, char **argv)
 		int status = scheduler_step(vm);
 		if (status == 1)
 			(*gv->game_over)(gv->data, vm);
+		(*gv->render)(gv->data, vm);
 		if (status != 0)
 			break;
-		(*gv->render)(gv->data, vm);
 		// SDL_Delay(1000 / 60);
 		// usleep(1000000 / 60);
 	}

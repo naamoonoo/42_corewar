@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:00:42 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/30 22:17:39 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/30 22:56:07 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_sdl	*sdl_init(void)
 	SDL_RenderSetLogicalSize(sdl->ren, WIDTH, HEIGHT);
 	SDL_SetRenderDrawColor(sdl->ren, 169, 169, 169, 0);
 	// SDL_SetRenderDrawBlendMode(sdl->ren, SDL_BLENDMODE_BLEND);
+	sdl->winner = -1;
 	sdl->in_show = 0;
 	sdl->is_running = 1;
 	sdl->is_quit = 0;

@@ -65,25 +65,42 @@ void	visualizer_sdl_render(void *data, t_vm *vm)
 		event_handler(sdl);
 	SDL_RenderClear(sdl->ren);
 	render_play_page(sdl);
-	// SDL_SetRenderDrawBlendMode(sdl->ren, SDL_BLENDMODE_BLEND);
+	render_cycle_box(sdl, vm->total_cycles);
+	if (sdl->winner >= 0)
+		render_finish(sdl);
 	SDL_SetRenderDrawColor(sdl->ren, 0xda, 0xdd, 0xdf, 0);
 	SDL_RenderPresent(sdl->ren);
 	SDL_Delay(1000 / 60);
+	if (vm->total_cycles % 500 == 0)
+		ft_printf("Cycle %d\n", vm->total_cycles);
 	return ;
-	ft_printf("Cycle %d\n", vm->total_cycles);
 }
 
 void	visualizer_sdl_init(void *data, int argc, char **argv)
 {
 
 	t_sdl	*sdl;
+	int		i;
+	int		idx;
 
+	i = 0;
 	sdl = (t_sdl *)data;
-	// SDL_RenderClear(sdl->ren);
-	// UNUSED(data);
-	// SDL_RenderPresent(sdl->ren);
-	UNUSED(argc);
-	UNUSED(argv);
+	while (ft_strcmp(argv[i], "-n"))
+		i += 1;
+	i += 1;
+	idx = 0;
+	while(++i < argc)
+	{
+		if (is_existed(sdl, argv[i]))
+		{
+			ft_printf("champ %s is already existed\n", argv[i]);
+			sdl->is_quit = 1;
+			sdl->is_running = 0;
+			return ;
+		}
+		sdl->selected_cmp[idx++].text = ft_strdup(argv[i]);
+		sdl->nb_of_p += 1;
+	}
 }
 
 void	visualizer_sdl_instruction_read(void *data, t_mem *address)
@@ -105,8 +122,6 @@ int		visualizer_sdl_program_active(void *data)
 	t_sdl	*sdl;
 
 	sdl = (t_sdl *)data;
-	// SDL_SetRenderDrawColor(sdl->ren, 0xda, 0xdd, 0xdf, 0);
-	// SDL_RenderClear(sdl->ren);
 	return (sdl->is_running);
 }
 
@@ -119,7 +134,7 @@ void	visualizer_sdl_game_over(void *data, t_vm *vm)
 	sdl = (t_sdl *)data;
 	winner_id = vm->last_alive;
 	winner_name = vm_get_champ_name(vm, winner_id);
-	render_finish(sdl, winner_id, winner_name);
+	sdl->winner = winner_id - 1;
 	return ;
 	ft_printf("Player %d (%s) won\n", winner_id, winner_name);
 }
@@ -187,7 +202,6 @@ t_arrlst	*visualizer_sdl_select_champs(void *data)
 		SDL_RenderPresent(sdl->ren);
 		SDL_Delay(1000 / 60);
 	}
-	// delete start
 	destroy_start_page(sdl);
 	return (champs_from_file_array(sdl->selected_cmp, sdl->nb_of_p));
 }

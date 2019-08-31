@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/29 08:57:15 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/31 03:00:20 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define MAP_SIZE_Y 1400
 # define BOX_W (MAP_SIZE_X / 64)
 # define BOX_H (MAP_SIZE_Y / 64)
+# define CHUNK 10000
 
 # define BTN_X sdl->e.button.x
 # define BTN_Y sdl->e.button.y
@@ -73,10 +74,8 @@ typedef struct		s_sdl
 	char			*champ_name[MAX_PLAYERS];
 	char			*curr_champs[NUM_OF_CHAMP];
 	int				nb_of_p;
-	int				fd;
-	char			*tmp;
+	int				winner;
 	char			**champs;
-	// char			**champ_names;
 	int				is_running;
 	int				is_quit;
 	int				in_show;
@@ -122,7 +121,8 @@ void				render_empty_map(t_sdl *sdl);
 void				render_map(t_sdl *sdl);
 void				render_status_bar(t_sdl *sdl);
 void				render_only_name(t_sdl *sdl, char *text, SDL_Rect *rect);
-void				render_finish(t_sdl *sdl, int p_num, char *p_name);
+void				render_finish(t_sdl *sdl);
+void				render_cycle_box(t_sdl *sdl, int cycle);
 
 
 void				free_char_pp(char **arr);

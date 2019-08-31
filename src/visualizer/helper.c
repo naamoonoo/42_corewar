@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:02:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/29 11:24:04 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/31 00:05:00 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,6 @@ void	event_handler(t_sdl *sdl)
 		sdl->in_show = 1;
 	if (KEY == SDLK_DOWN)
 		sdl->in_show = 0;
-	// if (KEY == SDLK_UP)
-	// 	sdl->roun = 1;
-	// else if (sdl->e.key.keysym.sym == SDLK_DOWN)
-	// 	parse_data(f, sdl);
-	// else if (sdl->e.key.keysym.sym == SDLK_RIGHT)
-	// 	f->auto_fill = 1;
-	// else if (sdl->e.key.keysym.sym == SDLK_LEFT)
-	// 	f->auto_fill = 0;
 }
 
 void	end_process(t_sdl *sdl)

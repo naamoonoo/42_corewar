@@ -3,10 +3,10 @@ CFLAGS=-Wall -Wextra -Werror -g -fsanitize=address
 RM=rm -rf
 # LIB		=	-L frameworks/SDL2.framework/lib -l SDL2 -L frameworks/SDL2_ttf.framework/lib -l SDL2_ttf
 # INCLUDE	=	-Iincludes -Iframeworks/SDL2.framework/includes/SDL2 -Iframeworks/SDL2_ttf.framework/includes
-# VISU_LIB=-L ~/.brew/Cellar/sdl2/2.0.9_1/lib -l SDL2-2.0.0 -L ~/.brew/Cellar/sdl2_ttf/2.0.15/lib -l SDL2_ttf-2.0.0
-# VISU_INCLUDE=-Iincludes -I $(HOME)/.brew/Cellar/sdl2/2.0.9_1/include/SDL2 -I $(HOME)/.brew/Cellar/sdl2_ttf/2.0.15/include/SDL2
-VISU_LIB=-L frameworks/SDL2.framework/lib -l SDL2 -L frameworks/SDL2_ttf.framework/lib -l SDL2_ttf
-VISU_INCLUDE=-Iincludes -Iframeworks/SDL2.framework/includes/SDL2 -Iframeworks/SDL2_ttf.framework/includes
+VISU_LIB=-L ~/.brew/Cellar/sdl2/2.0.9_1/lib -l SDL2-2.0.0 -L ~/.brew/Cellar/sdl2_ttf/2.0.15/lib -l SDL2_ttf-2.0.0
+VISU_INCLUDE=-Iincludes -I $(HOME)/.brew/Cellar/sdl2/2.0.9_1/include/SDL2 -I $(HOME)/.brew/Cellar/sdl2_ttf/2.0.15/include/SDL2
+# VISU_LIB=-L frameworks/SDL2.framework/lib -l SDL2 -L frameworks/SDL2_ttf.framework/lib -l SDL2_ttf
+# VISU_INCLUDE=-Iincludes -Iframeworks/SDL2.framework/includes/SDL2 -Iframeworks/SDL2_ttf.framework/includes
 
 SRC_DIR=src/
 BIN_DIR=bin/
