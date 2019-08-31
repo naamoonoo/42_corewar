@@ -66,13 +66,12 @@ void	visualizer_sdl_render(void *data, t_vm *vm)
 	SDL_RenderClear(sdl->ren);
 	render_play_page(sdl);
 	render_cycle_box(sdl, vm->total_cycles);
-	if (sdl->winner >= 0)
-		render_finish(sdl);
+	sdl->winner >= 0 ? render_finish(sdl) : 0;
 	SDL_SetRenderDrawColor(sdl->ren, 0xda, 0xdd, 0xdf, 0);
 	SDL_RenderPresent(sdl->ren);
-	SDL_Delay(1000 / 60);
-	if (vm->total_cycles % 500 == 0)
-		ft_printf("Cycle %d\n", vm->total_cycles);
+	SDL_Delay((sdl->winner >= 0 ? 100000 : 1000) / 60);
+	// if (vm->total_cycles % 500 == 0)
+	// 	ft_printf("Cycle %d\n", vm->total_cycles);
 	return ;
 }
 

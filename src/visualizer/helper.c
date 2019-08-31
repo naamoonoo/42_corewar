@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:02:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/31 13:47:23 by hnam             ###   ########.fr       */
+/*   Updated: 2019/08/31 14:33:41 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,15 @@ void	end_process(t_sdl *sdl)
 		SDL_DestroyTexture(sdl->tex[i]);
 	if (sdl->mem_start->text)
 	{
-		i = -1;
-		while (++i < MEM_SIZE)
+		while (i++ < MEM_SIZE + 5)
 		{
 			free(sdl->mem_start->text);
 			SDL_DestroyTexture(sdl->mem_start->tex);
 			sdl->mem_start = sdl->mem_start->next;
 		}
 	}
-	if (sdl->is_init)
-	{
-		i = -1;
-		while (++i < sdl->nb_of_p)
-			free(sdl->selected_cmp[i].text);
-	}
+	while (sdl->is_init && --sdl->nb_of_p >= 0)
+		free(sdl->selected_cmp[--sdl->nb_of_p].text);
 	free_char_pp(sdl->champs);
 	TTF_Quit();
 	SDL_Quit();
