@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 03:12:47 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/31 03:28:10 by hnam             ###   ########.fr       */
+/*   Updated: 2019/09/02 17:20:58 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int		render_start_text(t_sdl *sdl)
 		else
 			sdl->scr = TTF_RenderText_Solid(sdl->font[0], set.text, set.color);
 		sdl->tex[idx] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
+		SDL_FreeSurface(sdl->scr);
 	}
 	return (0);
 }
@@ -117,7 +118,7 @@ void	change_page(t_sdl *sdl)
 		&& sdl->page > 0 && (changed = 1))
 		sdl->page -= 1;
 	if (is_clicked(sdl, (SDL_Rect){450, 1430, 120, 30})
-		&& sdl->page < 6 && (changed = 1)) // need to find end point
+		&& sdl->page < 6 && (changed = 1))
 		sdl->page += 1;
 	if (!changed)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:02:27 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/31 14:33:41 by hnam             ###   ########.fr       */
+/*   Updated: 2019/09/02 17:22:06 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,10 @@ void	end_process(t_sdl *sdl)
 		}
 	}
 	while (sdl->is_init && --sdl->nb_of_p >= 0)
-		free(sdl->selected_cmp[--sdl->nb_of_p].text);
+		free(sdl->selected_cmp[sdl->nb_of_p].text);
 	free_char_pp(sdl->champs);
+	TTF_CloseFont(sdl->font[0]);
+	TTF_CloseFont(sdl->font[1]);
 	TTF_Quit();
 	SDL_Quit();
 	free(sdl);

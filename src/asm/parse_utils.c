@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/17 20:28:23 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/22 15:20:40 by aderby           ###   ########.fr       */
+/*   Updated: 2019/08/24 21:25:59 by drosa-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ int		get_name(char *file)
 	ptr = ft_strchr(file, '.');
 	ptr = ft_strsub(file, 0, ptr - file);
 	name = ft_strjoin(ptr, ".cor");
-	ft_putstr("writing output to file ");
-	ft_putstr(name);
-	ft_putstr("\n");
+	ft_printf("%s", "writing output to file ");
+	ft_printf("%s\n", name);
 	free(ptr);
 	fd = open(name, O_CREAT | O_RDWR, 0644);
 	free(name);

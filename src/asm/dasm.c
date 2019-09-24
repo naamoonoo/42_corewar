@@ -6,7 +6,7 @@
 /*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 19:47:30 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/21 10:08:52 by aderby           ###   ########.fr       */
+/*   Updated: 2019/08/30 21:19:08 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static int	disassemble(int *fd, char c)
 static int	comment_name_get(int *fd)
 {
 	t_header	tmp;
-	char		c;
 
 	read(INPUT, (char[4]){0}, 4);
 	read(INPUT, tmp.prog_name, PROG_NAME_LENGTH + 1);

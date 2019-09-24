@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/09 19:12:13 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/18 21:35:58 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/16 21:54:27 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static void	*parse_arg_ind(t_mem **mem, t_process *caller, int using_idx_mod)
 	*mem = mem_ptr_add(*mem, 2);
 	if (using_idx_mod)
 		offset = offset % IDX_MOD;
+	else
+		offset = offset % MEM_SIZE;
 	return (mem_ptr_add(caller->pc, offset));
 }
 
@@ -65,9 +67,11 @@ static int	decode_stub(t_arg_list *args, t_op op, t_process *caller, int uim)
 	t_mem	*mem;
 	char	acb;
 	int		i;
+	int		valid;
 
 	acb = caller->pc->next->data;
 	mem = caller->pc->next->next;
+	valid = TRUE;
 	i = 0;
 	while (i < op.param_num)
 	{
@@ -79,14 +83,11 @@ static int	decode_stub(t_arg_list *args, t_op op, t_process *caller, int uim)
 		else if (args->arg_types[i] == REG_CODE)
 			args->args[i] = parse_arg_reg(&mem, caller);
 		else
-		{
-			caller->pc = mem;
-			return (FALSE);
-		}
+			valid = FALSE;
 		i++;
 	}
 	caller->pc = mem;
-	return (((acb << (2 * i)) & 0xFF) == 0);
+	return (valid);
 }
 
 t_arg_list	*decode_arg_list(t_op op, t_process *caller, int uses_idx_mod)

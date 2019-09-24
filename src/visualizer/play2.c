@@ -6,23 +6,16 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 03:12:12 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/31 13:44:22 by hnam             ###   ########.fr       */
+/*   Updated: 2019/09/16 20:37:13 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/visualizer.h"
 
-/*
-** https://discourse.libsdl.org/t/sdl2-ttf-text-rendering-slow-how-to-make-faster/21068/4
-** I think it slow because of the Freetype 2 which is used
-** internally by SDL_ttf. TrueType processing is quite complicated
-** and it takes time to compute. The best way of using SDL_ttf
-** would be to create a new texture only when text changes (caching).
-** Anyway try profiling the code. It probably somewhere else :).
-*/
 void	render_instruction(t_sdl *sdl, t_mem *mem)
 {
 	char	*tmp;
+
 	if (mem->text)
 	{
 		tmp = base_itoa((unsigned char)mem->data, 16, 2);
@@ -50,10 +43,7 @@ void	render_map(t_sdl *sdl)
 	tmp = sdl->mem_start;
 	while (++i < MEM_SIZE)
 	{
-		if (tmp->owner)
-			color = get_color_of(tmp->owner, sdl);
-		else
-			color = C_WH;
+		color = tmp->owner ? get_color_of(tmp->owner, sdl) : C_WH;
 		if (tmp->is_pc)
 			color_adjust(&color, 0.5);
 		else if (tmp->is_instruction)
@@ -88,13 +78,14 @@ void	render_status_bar(t_sdl *sdl)
 	i = -1;
 	while (++i < sdl->nb_of_p)
 	{
-		size = ((sdl->score[i] * (MAP_SIZE_X - 50))/ total);
+		size = ((sdl->score[i] * (MAP_SIZE_X - 50)) / total);
 		c = sdl->selected_cmp[i].color;
 		SDL_SetRenderDrawColor(sdl->ren, c.r, c.g, c.b, 255);
 		SDL_RenderFillRect(sdl->ren, &(SDL_Rect){pos, 25, size, 20});
 		sdl->score[i] = 0;
 		pos += size;
 	}
+	UNUSED(sdl);
 }
 
 void	render_finish(t_sdl *sdl)
@@ -111,7 +102,7 @@ void	render_finish(t_sdl *sdl)
 	render_only_name(sdl, set.text, NULL);
 	sdl->tex[5] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
 	SDL_RenderCopy(sdl->ren, sdl->tex[5], NULL, &((SDL_Rect){
-		MAP_P_X + 20, 600 + 20, MAP_SIZE_X - 40 , 400 - 40
+		MAP_P_X + 20, 600 + 20, MAP_SIZE_X - 40, 400 - 40
 	}));
 }
 
@@ -128,7 +119,7 @@ void	render_cycle_box(t_sdl *sdl, int cycle)
 		if (cycle / CHUNK == x)
 		{
 			SDL_SetRenderDrawColor(sdl->ren, C_BK.r, C_BK.g, C_BK.b, 255);
-			SDL_RenderFillRect(sdl-> ren, &(SDL_Rect){
+			SDL_RenderFillRect(sdl->ren, &(SDL_Rect){
 				0, 1350 - (x * 56), 20, 51});
 			cycle -= cycle > CHUNK ? CHUNK * x : 0;
 		}

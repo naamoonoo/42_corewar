@@ -6,7 +6,7 @@
 /*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 19:47:30 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/06 19:46:51 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/16 21:38:31 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int	ft_error(char *str, int i)
 {
-	ft_putstr(str);
+	ft_putstr_fd(str, 2);
 	return (i);
 }

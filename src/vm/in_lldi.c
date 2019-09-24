@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 20:26:29 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/16 19:30:49 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/03 23:08:53 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	in_lldi(t_vm *vm, t_process *process, t_visualizer *gv)
 
 	UNUSED(vm);
 	ptr = process->pc;
-	args = decode_arg_list(g_op_tab[13], process, 0);
+	args = decode_arg_list(g_op_tab[13], process, 1);
 	if (args == NULL)
 		return ;
 	offset = arg_list_read(args, 0, gv, process)

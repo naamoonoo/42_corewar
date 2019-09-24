@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 13:31:49 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/31 13:52:51 by hnam             ###   ########.fr       */
+/*   Updated: 2019/09/17 19:52:00 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ typedef struct		s_sdl
 	TTF_Font		*font[2];
 }					t_sdl;
 
+t_sdl	*sdl_init(void);
+
 /*
 **-----------------------main page---------------------------
 */
@@ -125,7 +127,22 @@ void				render_only_name(t_sdl *sdl, char *text, SDL_Rect *rect);
 void				render_finish(t_sdl *sdl);
 void				render_cycle_box(t_sdl *sdl, int cycle);
 
-
 void				free_char_pp(char **arr);
 char				*base_itoa(uint64_t n, int str_base, int len);
+/*
+**-----------------------visualizer---------------------------
+*/
+void				visualizer_sdl_init(void *data, int argc, char **argv);
+void				visualizer_sdl_instruction_read(void *data, t_mem *address);
+void				visualizer_sdl_instruction_fired(void *data, t_mem *address);
+void				visualizer_sdl_process_lived(void *data, t_process *process, int champ, char *champ_name);
+void				visualizer_sdl_memory_read(void *data, t_mem *address, int value, t_process *process);
+void				visualizer_sdl_memory_written(void *data, t_mem *address, int value, t_process *process);
+void				visualizer_sdl_render(void *data, t_vm *vm);
+int					visualizer_sdl_program_active(void *data);
+void				visualizer_sdl_game_over(void *data, t_vm *vm);
+void				visualizer_sdl_cleanup(void *data);
+t_arrlst			*visualizer_sdl_select_champs(void *data);
+void				visualizer_sdl_use_champs(void *data, t_arrlst *champs);
+void				visualizer_sdl_sleep(void *data);
 #endif

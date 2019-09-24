@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/17 19:47:48 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/22 15:18:09 by aderby           ###   ########.fr       */
+/*   Updated: 2019/08/26 15:27:22 by drosa-ta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_error(char *str, int i)
 {
-	ft_putstr(str);
+	ft_fdprintf(2, "%s\n", str);
 	return (i);
 }
 
@@ -23,19 +23,18 @@ void	ft_exit(char *reason, char **split, int line_num)
 	int i;
 
 	i = -1;
-	ft_putstr("Parse Error on line ");
-	ft_putnbr(line_num);
-	ft_putstr("\n");
+	ft_error("Parse Error on line ", 0);
+	ft_fdprintf(2, "%d\n", line_num);
 	if (split)
 	{
 		while (split[++i])
 		{
-			ft_putstr(split[i]);
-			ft_putstr(" ");
+			ft_error(split[i], 0);
+			ft_error(" ", 0);
 		}
-		ft_putstr("\n");
+		ft_error("\n", 0);
 	}
-	ft_putstr(reason);
+	ft_error(reason, 0);
 	exit(0);
 }
 
@@ -45,20 +44,20 @@ void	parse_error(t_tree **tree, char **split, int line_num, int *fd)
 	(void)tree;
 	(void)split;
 	(void)line_num;
-	ft_putstr("This is an error in parse error\n");
+	ft_error("This is an error in parse error\n", 0);
 	printf("%d\n", line_num);
 }
 
 void	tree_parse_error(char *reason, t_tree *tree)
 {
-	ft_putstr("Parse error on line ");
-	ft_putnbr(tree->line_num);
-	ft_putstr("\n");
-	ft_putstr(reason);
-	ft_putstr("\n");
+	ft_error("Parse error on line ", 0);
+	ft_fdprintf(2, "%d\n", tree->line_num);
+	ft_error("\n", 0);
+	ft_error(reason, 0);
+	ft_error("\n", 0);
 	while (tree)
 	{
-		ft_putstr(tree->content);
+		ft_error(tree->content, 0);
 		tree = tree->left;
 	}
 	exit(0);

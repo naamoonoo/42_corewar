@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 20:24:44 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/16 19:30:29 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/08/27 15:19:23 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	in_ldi(t_vm *vm, t_process *process, t_visualizer *gv)
 	offset %= IDX_MOD;
 	ptr = mem_ptr_add(ptr, offset);
 	value = mem_read_dir(ptr, gv, process);
-	process->carry = (value == 0);
 	if (gv != NULL)
 		gv->process = process;
 	arg_list_write(args, 2, value, gv);

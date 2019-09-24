@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 16:33:02 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/20 15:06:17 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/16 22:04:12 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,6 @@ static int	champ_number_exists(t_arrlst *champions, int champ_number)
 	return (FALSE);
 }
 
-static void	free_champions(t_arrlst *champions)
-{
-	int			i;
-	t_champion	*champ;
-
-	i = 0;
-	while (i < champions->size)
-	{
-		champ = *(t_champion **)ft_arrlst_get(champions, i);
-		free(champ);
-		i++;
-	}
-	free(champions);
-}
-
 static int	add_with_number(t_arrlst *champions, int champ_number, char *file)
 {
 	t_champion *champ;
@@ -54,15 +39,15 @@ static int	add_with_number(t_arrlst *champions, int champ_number, char *file)
 	champ->number = champ_number;
 	if (champ_number_exists(champions, champ_number))
 	{
-		ft_printf("Error: Two champions cannot both be #%d!\n", champ_number);
+		ft_fdprintf(2, "Error: Two champions cannot both be #%d!\n",
+				champ_number);
 		free_champions(champions);
 		return (-1);
 	}
-	// TODO better color assignment
 	champ->color = rand();
 	if (ft_arrlst_add(champions, &champ) == NULL)
 	{
-		ft_printf("Failed to add champion.\n");
+		ft_putstr_fd("Error: Failed to add champion.\n", 2);
 		free_champions(champions);
 		return (-1);
 	}
@@ -79,6 +64,13 @@ static int	add_without_number(t_arrlst *champions, char *file)
 	return (add_with_number(champions, champ_number, file));
 }
 
+t_arrlst	*free_and_print_err(t_arrlst *champions)
+{
+	ft_putstr_fd("Error: Expected champion.\n", 2);
+	free_champions(champions);
+	return (NULL);
+}
+
 t_arrlst	*build_champions(int argc, char **argv, int *i)
 {
 	int			champ_number;
@@ -93,11 +85,7 @@ t_arrlst	*build_champions(int argc, char **argv, int *i)
 		{
 			champ_number = read_arg_number(argc, argv, i, NULL);
 			if (*i >= argc)
-			{
-				ft_printf("Error: Expected champion.\n");
-				free_champions(champions);
-				return (NULL);
-			}
+				return (free_and_print_err(champions));
 			if (add_with_number(champions, champ_number, argv[*i]) == -1)
 				return (NULL);
 		}

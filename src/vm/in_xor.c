@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 20:26:46 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/16 19:31:24 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/03 22:41:28 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	in_xor(t_vm *vm, t_process *process, t_visualizer *gv)
 	int			result;
 
 	UNUSED(vm);
-	args = decode_arg_list(g_op_tab[7], process, 0);
+	args = decode_arg_list(g_op_tab[7], process, 1);
 	if (args == NULL)
 		return ;
 	result = arg_list_read(args, 0, gv, process)

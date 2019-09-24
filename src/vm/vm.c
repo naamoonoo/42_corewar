@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 16:39:18 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/28 15:58:18 by hnam             ###   ########.fr       */
+/*   Updated: 2019/09/16 21:43:11 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int	vm_add_champion(t_vm *vm, t_champion *champ, int separation, int i)
 		return (-1);
 	champ_process->next = vm->p_list;
 	vm->p_list = champ_process;
+	process_prepare_instruction(champ_process, vm->gv);
 	return (0);
 }
 
@@ -48,27 +49,29 @@ static int	vm_add_champions(t_vm *vm, t_arrlst *champions)
 	int			i;
 	t_champion	*champ;
 	int			champ_separation;
+	int			highest_pid;
 
 	if (champions->size > MAX_PLAYERS)
-	{
-		ft_printf("Error: Too many champions!\n");
-		return (-1);
-	}
+		return (ft_error("Error: Too many champions!\n", -1));
 	vm->num_champions = champions->size;
 	champ_separation = MEM_SIZE / vm->num_champions;
+	highest_pid = 1;
 	i = 0;
 	while (i < champions->size)
 	{
 		champ = *(t_champion **)ft_arrlst_get(champions, i);
 		if (vm_add_champion(vm, champ, champ_separation, i) == -1)
 			return (-1);
+		if (champ->number > highest_pid)
+			highest_pid = champ->number;
 		i++;
 	}
 	vm->last_alive = vm->champions[vm->num_champions - 1]->number;
+	vm->next_available_pid = highest_pid + 1;
 	return (0);
 }
 
-t_vm		*vm_new(t_arrlst *champions)
+t_vm		*vm_new(t_arrlst *champions, t_visualizer *gv)
 {
 	t_vm *vm;
 
@@ -87,6 +90,7 @@ t_vm		*vm_new(t_arrlst *champions)
 	vm->cycles_to_die = CYCLE_TO_DIE;
 	vm->delta = 0;
 	vm->total_cycles = 0;
+	vm->gv = gv;
 	if (vm_add_champions(vm, champions) == -1)
 	{
 		free(vm);

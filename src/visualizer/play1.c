@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 03:08:54 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/31 03:27:02 by hnam             ###   ########.fr       */
+/*   Updated: 2019/09/02 14:50:33 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void		render_play_text(t_sdl *sdl)
 		sdl->champ_rect[i] = set.rect;
 		render_only_name(sdl, sdl->selected_cmp[i].text, NULL);
 		sdl->champ_tex[i] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
+		SDL_FreeSurface(sdl->scr);
 	}
 	i = -1;
 	while (++i < 5)
@@ -93,6 +94,7 @@ void		render_play_text(t_sdl *sdl)
 		sdl->rect[i] = set.rect;
 		sdl->scr = TTF_RenderText_Solid(sdl->font[0], set.text, set.color);
 		sdl->tex[i] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
+		SDL_FreeSurface(sdl->scr);
 	}
 }
 
@@ -112,7 +114,7 @@ SDL_Color	get_color_of(char *champ, t_sdl *sdl)
 	return (C_WH);
 }
 
-void	color_adjust(SDL_Color *color, double percent)
+void		color_adjust(SDL_Color *color, double percent)
 {
 	color->r *= percent;
 	color->g *= percent;

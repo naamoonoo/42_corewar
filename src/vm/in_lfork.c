@@ -6,27 +6,11 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 20:26:10 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/13 20:11:21 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/03 23:04:43 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/corewar.h"
-
-static int	highest_pid(t_vm *vm)
-{
-	t_process	*p;
-	int			max;
-
-	max = 0;
-	p = vm->p_list;
-	while (p != NULL)
-	{
-		if (p->pid > max)
-			max = p->pid;
-		p = p->next;
-	}
-	return (max);
-}
 
 void		in_lfork(t_vm *vm, t_process *process, t_visualizer *gv)
 {
@@ -39,11 +23,11 @@ void		in_lfork(t_vm *vm, t_process *process, t_visualizer *gv)
 		return ;
 	ft_memcpy(child, process, sizeof(t_process));
 	offset = mem_read_ind(process->pc->next);
-	child->pc = mem_ptr_add(process->pc, offset);
+	child->pc = mem_ptr_add(process->pc, offset % MEM_SIZE);
 	process->pc = process->pc->next->next->next;
-	child->pid = highest_pid(vm) + 1;
-	child->cycles_to_wait = 0;
-	child->instruction = NULL;
+	child->pid = vm->next_available_pid;
+	vm->next_available_pid++;
+	process_prepare_instruction(child, gv);
 	child->next = vm->p_list;
 	vm->p_list = child;
 }

@@ -6,7 +6,7 @@
 /*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/17 20:30:42 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/20 11:05:17 by aderby           ###   ########.fr       */
+/*   Updated: 2019/08/30 21:16:43 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	parse_name_comment(t_tree **tree, char **split, int line_num, int *fd)
 	t_tree	*nav;
 	int		i;
 
+	(void) fd; // TODO @AARON
 	i = 0;
 	if (!*tree)
 		init_tree(tree, NULL, line_num);

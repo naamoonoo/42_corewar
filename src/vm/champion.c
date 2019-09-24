@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   champion.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:28:58 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/28 19:34:24 by hnam             ###   ########.fr       */
+/*   Updated: 2019/09/16 21:58:24 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	endian_swap(int n)
 	return (n);
 }
 
-#define THROW_ERROR(E) do { ft_putstr(E); return (-1); } while (0)
+#define THROW_ERROR(E) return ft_error(E, -1);
 
 static int	read_champion_header(int fd, t_champion *champion, char *filename)
 {
@@ -34,7 +34,7 @@ static int	read_champion_header(int fd, t_champion *champion, char *filename)
 		THROW_ERROR("Error: Failed to read header\n");
 	if (endian_swap(header.magic) != COREWAR_EXEC_MAGIC)
 	{
-		ft_printf("Error: %s is not a corewar file.\n", filename);
+		ft_fdprintf(2, "Error: %s is not a corewar file.\n", filename);
 		return (-1);
 	}
 	champion->size = endian_swap(header.prog_size);
@@ -63,12 +63,12 @@ static int	read_champion_bytecode(int fd, t_champion *champion, char *filename)
 				champion->size - total_bytes_read);
 		if (bytes_read == -1)
 		{
-			ft_printf("Read fail on %s\n", filename);
+			ft_fdprintf(2, "Read fail on %s\n", filename);
 			return (-1);
 		}
 		else if (bytes_read == 0)
 		{
-			ft_printf("Unexpected end of file: %s\n", filename);
+			ft_fdprintf(2, "Unexpected end of file: %s\n", filename);
 			return (-1);
 		}
 		total_bytes_read += bytes_read;
@@ -84,7 +84,7 @@ t_champion	*read_champion_from_file(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_printf("Failed to open file %s\n", file);
+		ft_fdprintf(2, "Failed to open file %s\n", file);
 		return (NULL);
 	}
 	champ = (t_champion *)malloc(sizeof(t_champion));
@@ -103,11 +103,4 @@ t_champion	*read_champion_from_file(char *file)
 	close(fd);
 	champ->filename = file;
 	return (champ);
-}
-
-void		free_champion(t_champion *champ)
-{
-	free(champ->name);
-	free(champ->comment);
-	free(champ);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mem_block.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/07 18:43:12 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/08/29 00:02:06 by hnam             ###   ########.fr       */
+/*   Updated: 2019/09/02 15:56:52 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,18 @@ void	mem_dump(t_mem *mem)
 
 	ptr = mem;
 	len = 0;
+	ft_printf("[ ");
 	while (TRUE)
 	{
 		len++;
 		if (ptr->next == mem)
 		{
-			ft_printf("%.2hhX\n", ptr->data);
+			ft_printf("%.2hhX ]\n", ptr->data);
 			break ;
 		}
 		else if (len == 32)
 		{
-			ft_printf("%.2hhX\n", ptr->data);
+			ft_printf("%.2hhX ]\n[ ", ptr->data);
 			len = 0;
 		}
 		else
@@ -52,10 +53,13 @@ t_mem	*mem_block_create(unsigned int size)
 	while (i < size)
 	{
 		mem_block[i].data = 0;
-		// mem_block[i].is_instruction = 0;
-		mem_block[i].owner = NULL;
 		mem_block[i].prev = mem_block + i - 1;
 		mem_block[i].next = mem_block + i + 1;
+		mem_block[i].owner = NULL;
+		mem_block[i].text = NULL;
+		mem_block[i].is_instruction = FALSE;
+		mem_block[i].is_pc = FALSE;
+		mem_block[i].tex = NULL;
 		i++;
 	}
 	mem_block[0].prev = mem_block + size - 1;
@@ -68,7 +72,8 @@ void	mem_block_free(t_mem *mem_block)
 	free(mem_block);
 }
 
-void	mem_write_from_buffer(t_mem *mem, char *buff, unsigned int size, t_champion *champ)
+void	mem_write_from_buffer(t_mem *mem, char *buff, unsigned int size,
+		t_champion *champ)
 {
 	unsigned int i;
 
@@ -77,7 +82,6 @@ void	mem_write_from_buffer(t_mem *mem, char *buff, unsigned int size, t_champion
 	{
 		mem->data = buff[i];
 		mem->owner = champ->filename;
-		mem->text = NULL;
 		mem = mem->next;
 		i++;
 	}
