@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/05 13:12:16 by aderby            #+#    #+#             */
-/*   Updated: 2019/09/16 22:09:10 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 19:06:56 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # define MAX_OPS 16
 
 # include <stdlib.h>
-# include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
 
@@ -116,6 +115,7 @@ struct					s_visualizer
 	t_arrlst			*(*select_champs)(void *data);
 	void				(*use_champs)(void *gv_data, t_arrlst *champs);
 	void				(*sleep)(void *gv_data);
+	void				(*silence)(t_visualizer *gv);
 	t_process			*process;
 };
 
@@ -188,6 +188,9 @@ void					in_lld(t_vm *vm, t_process *process, t_visualizer *gv);
 void					in_lldi(t_vm *vm, t_process *process, t_visualizer *gv);
 void					in_lfork(t_vm *vm, t_process *proc, t_visualizer *gv);
 void					in_aff(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_lt(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_gt(t_vm *vm, t_process *process, t_visualizer *gv);
+void					in_aa(t_vm *vm, t_process *process, t_visualizer *gv);
 
 void					push_to_stack(t_process **stack, t_process *process);
 void					purge_list(t_process **p_list);

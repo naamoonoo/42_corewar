@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/07 19:36:58 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/09/01 21:35:03 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 14:42:02 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ t_process	*process_new(int pid, t_mem *pc)
 	return (process);
 }
 
-t_instruction g_instructions[MAX_OPS] =
+t_instruction g_instructions[] =
 {
 	&in_live, &in_ld, &in_st, &in_add,
 	&in_sub, &in_and, &in_or, &in_xor,
 	&in_zjmp, &in_ldi, &in_sti, &in_fork,
-	&in_lld, &in_lldi, &in_lfork, &in_aff
+	&in_lld, &in_lldi, &in_lfork, &in_aff,
+	&in_lt, &in_gt, &in_aa
 };
 
 static void	in_do_nothing(t_vm *vm, t_process *process, t_visualizer *gv)

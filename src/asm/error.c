@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/17 19:47:48 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/26 15:27:22 by drosa-ta         ###   ########.fr       */
+/*   Updated: 2019/09/27 17:06:49 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_error(char *str, int i)
 {
-	ft_fdprintf(2, "%s\n", str);
+	ft_fdprintf(2, "%s", str);
 	return (i);
 }
 
@@ -45,7 +45,7 @@ void	parse_error(t_tree **tree, char **split, int line_num, int *fd)
 	(void)split;
 	(void)line_num;
 	ft_error("This is an error in parse error\n", 0);
-	printf("%d\n", line_num);
+	ft_printf("%d\n", line_num);
 }
 
 void	tree_parse_error(char *reason, t_tree *tree)

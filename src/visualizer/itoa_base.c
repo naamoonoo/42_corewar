@@ -6,11 +6,16 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 03:08:47 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/31 03:08:50 by hnam             ###   ########.fr       */
+/*   Updated: 2019/09/24 17:24:19 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/visualizer.h"
+
+int			get_small(int a, int b)
+{
+	return (a > b ? b : a);
+}
 
 int			ft_numlen(uint64_t n, uint64_t base)
 {

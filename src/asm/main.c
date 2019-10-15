@@ -6,12 +6,12 @@
 /*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 19:47:30 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/22 15:11:56 by aderby           ###   ########.fr       */
+/*   Updated: 2019/09/27 17:07:41 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm.h>
-#include <stdio.h>
+
 int	main(int ac, char **av)
 {
 	if (ac == 4)
@@ -23,9 +23,7 @@ int	main(int ac, char **av)
 		return (0);
 	}
 	else if (ac == 2)
-	{
 		assemble(av[1]);
-	}
 	else
 		return (ft_error("./asm | [-d file.cor] | file.s\n", 1));
 }

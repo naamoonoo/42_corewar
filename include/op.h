@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2019/09/16 22:09:40 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 14:08:59 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct		s_op
 {
 	char			*name;
 	int				param_num;
-	t_arg_type		arg_type[3];
+	t_arg_type		arg_type[MAX_ARGS_NUMBER];
 	int				op_num;
 	int				cycles;
 	char			*verbose;
@@ -80,6 +80,6 @@ typedef struct		s_op
 	int				dir_ind;
 }					t_op;
 
-extern t_op		g_op_tab[17];
+extern t_op		g_op_tab[];
 
 #endif

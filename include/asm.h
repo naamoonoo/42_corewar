@@ -6,7 +6,7 @@
 /*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/20 11:00:52 by aderby            #+#    #+#             */
-/*   Updated: 2019/09/16 22:05:19 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 16:33:01 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <op.h>
 
 # define WHITE_SPACE " \f\v\t\r\n\""
+# define COMMENT_DELIMS " \f\v\t\r\n\""
 # define INPUT fd[0]
 # define OUTPUT fd[1]
 # define NULL_FUNCTION 0
@@ -70,6 +71,11 @@ void				edit_indirect_value(t_tree *tree, t_tree *instruct, int a);
 void				search_instruction_list(t_tree *tree, t_tree *instruction);
 void				parse_indirect_values(t_tree *tree);
 void				ft_exit(char *reason, char **split, int line_num);
+int					outout_name_check(char *input_file, char *output_name);
+int					disassemble(int *fd, char c);
+int					comment_name_get(int *fd);
+int					found_backwards(t_tree *tree, char *label);
+int					found_forwards(t_tree *tree, char *label);
 
 void				get_header_comment(t_header *header, t_tree *tree);
 void				get_header_name(t_header *header, t_tree *tree);

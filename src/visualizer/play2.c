@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 03:12:12 by hnam              #+#    #+#             */
-/*   Updated: 2019/09/16 20:37:13 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 16:35:11 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	render_instruction(t_sdl *sdl, t_mem *mem)
 	if (mem->text)
 	{
 		tmp = base_itoa((unsigned char)mem->data, 16, 2);
-		if (strcmp(tmp, mem->text) != 0)
+		if (ft_strcmp(tmp, mem->text) != 0)
 		{
 			free(mem->text);
 			mem->text = tmp;

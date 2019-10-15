@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 03:12:47 by hnam              #+#    #+#             */
-/*   Updated: 2019/09/02 17:20:58 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/24 17:15:17 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	change_page(t_sdl *sdl)
 		&& sdl->page > 0 && (changed = 1))
 		sdl->page -= 1;
 	if (is_clicked(sdl, (SDL_Rect){450, 1430, 120, 30})
-		&& sdl->page < 6 && (changed = 1))
+		&& sdl->page < 5 && (changed = 1))
 		sdl->page += 1;
 	if (!changed)
 		return ;

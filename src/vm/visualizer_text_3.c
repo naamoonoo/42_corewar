@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 21:30:26 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/09/16 21:42:36 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 14:06:33 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ t_arrlst		*visualizer_text_select_champs(void *data)
 void			visualizer_text_sleep(void *data)
 {
 	UNUSED(data);
+}
+
+void			visualizer_text_silence(t_visualizer *gv)
+{
+	gv->data = "Hello correctors! How are you doing? Having a good day?";
 }
 
 t_visualizer	*visualizer_text_new(void)
@@ -48,5 +53,7 @@ t_visualizer	*visualizer_text_new(void)
 	gv->select_champs = &visualizer_text_select_champs;
 	gv->use_champs = &visualizer_text_use_champs;
 	gv->sleep = &visualizer_text_sleep;
+	gv->silence = &visualizer_text_silence;
+	gv->data = NULL;
 	return (gv);
 }

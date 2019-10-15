@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror -g
+CFLAGS=-Wall -Wextra -Werror
 RM=rm -rf
 
 VISU_LIB=-L ~/.brew/Cellar/sdl2/2.0.9_1/lib -l SDL2-2.0.0 -L ~/.brew/Cellar/sdl2_ttf/2.0.15/lib -l SDL2_ttf-2.0.0
@@ -10,12 +10,13 @@ BIN_DIR=bin/
 TEST_DIR=test/
 
 ASM_OBJS=$(addprefix $(BIN_DIR),\
-		 identify_arg_type.o parse_name_comment.o parse_tree.o asm.o parse_utils.o parser.o write_name_comment.o dasm.o write_to_file.o decode.o write_utils.o edit_indirect_value.o parse_indirect_values.o error.o parse_instruction_line.o extension_check.o parse_instruction_params.o global.o parse_label.o)
+		 identify_arg_type.o parse_name_comment.o parse_tree.o asm.o parse_utils.o parser.o write_name_comment.o dasm.o write_to_file.o decode.o write_utils.o edit_indirect_value.o parse_indirect_values.o error.o parse_instruction_line.o extension_check.o parse_instruction_params.o global.o parse_label.o tree_search.o)
 VM_OBJS=$(addprefix $(BIN_DIR), mem.o scheduler.o purge_list.o mem_block.o process.o decode_arg_list.o arg_list_io.o vm.o champion.o valid_arg_list.o read_arg_number.o build_champions.o free_champ.o create_visualizer.o \
 		in_live.o in_ld.o in_add.o in_sub.o \
 		in_st.o in_and.o in_or.o in_xor.o \
 		in_zjmp.o in_ldi.o in_lld.o in_lldi.o \
 		in_fork.o in_lfork.o in_aff.o in_sti.o \
+		in_lt.o in_gt.o in_aa.o \
 		visualizer_text_1.o visualizer_text_2.o visualizer_text_3.o)
 VISUALIZER_OBJS=$(addprefix $(BIN_DIR), visualizer_sdl1.o visualizer_sdl2.o visualizer_sdl3.o visualizer_sdl4.o helper.o init.o play1.o play2.o start1.o start2.o itoa_base.o)
 COMMON_OBJS=$(addprefix $(BIN_DIR), op.o)
@@ -59,7 +60,7 @@ $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
 $(ASM_OBJS): $(BIN_DIR)%.o: $(SRC_DIR)asm/%.c | $(BIN_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@ -I include -I libft
+	$(CC) $(CFLAGS) -c $< -o $@ -I include -I libft $(VISU_INCLUDE)
 
 $(VM_OBJS): $(BIN_DIR)%.o: $(SRC_DIR)vm/%.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@ $(VISU_INCLUDE)

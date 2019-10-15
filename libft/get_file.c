@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 12:07:54 by hnam              #+#    #+#             */
-/*   Updated: 2019/06/05 12:07:54 by hnam             ###   ########.fr       */
+/*   Updated: 2019/09/27 16:38:48 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	get_file(int fd, char **file)
 	}
 	if (gnl < 0)
 		return (-1);
-	*file = strdup(str);
+	*file = ft_strdup(str);
 	free(str);
 	return (0);
 }

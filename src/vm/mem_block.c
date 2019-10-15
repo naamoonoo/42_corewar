@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/07 18:43:12 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/09/02 15:56:52 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 19:04:30 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	mem_dump(t_mem *mem)
 
 	ptr = mem;
 	len = 0;
-	ft_printf("[ ");
+	ft_printf("\n[ ");
 	while (TRUE)
 	{
 		len++;

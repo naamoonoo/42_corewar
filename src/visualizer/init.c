@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/04 12:00:42 by hnam              #+#    #+#             */
-/*   Updated: 2019/08/31 03:22:42 by hnam             ###   ########.fr       */
+/*   Updated: 2019/09/24 19:57:10 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	get_champ_name(t_sdl *sdl)
 	sdl->nb_of_p = 0;
 	sdl->page = 0;
 	tmp = NULL;
-	fd = open("vm_champs/champlist.txt", O_RDONLY);
+	if ((fd = open("vm_champs/champlist.txt", O_RDONLY)) < 0)
+		exit(1);
 	get_file(fd, &(tmp));
 	close(fd);
 	sdl->champs = ft_strsplit(tmp, '\n');

@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 21:52:08 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/09/16 21:52:59 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 17:43:30 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_visualizer	*create_visualizer_from_flag(int argc, char **argv, int *i)
 {
 	if (argc == 2)
 	{
-		ft_error("Error: -v must be followed by an argument.", 0);
+		ft_error("Error: -v must be followed by an argument.\n", 0);
 		return (NULL);
 	}
 	else if (ft_strequ(argv[2], "text"))
@@ -29,7 +29,7 @@ static t_visualizer	*create_visualizer_from_flag(int argc, char **argv, int *i)
 		*i = 3;
 		return (visualizer_sdl_new());
 	}
-	ft_error("Error: -v must be followed by either text or SDL.", 0);
+	ft_error("Error: -v must be followed by either text or SDL.\n", 0);
 	return (NULL);
 }
 

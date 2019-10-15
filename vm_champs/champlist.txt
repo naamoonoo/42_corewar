@@ -55,3 +55,4 @@ vm_champs/champs/42.cor
 vm_champs/champs/mortel.cor
 vm_champs/champs/toto.cor
 vm_champs/champs/Car.cor
+vm_champs/champs/our_champs/leapfrog.cor

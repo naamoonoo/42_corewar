@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 03:08:54 by hnam              #+#    #+#             */
-/*   Updated: 2019/09/02 14:50:33 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 16:35:04 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ SDL_Color	get_color_of(char *champ, t_sdl *sdl)
 	i = -1;
 	while (sdl->selected_cmp[++i].text)
 	{
-		if (strcmp(sdl->selected_cmp[i].text, champ) == 0)
+		if (ft_strcmp(sdl->selected_cmp[i].text, champ) == 0)
 		{
 			sdl->score[i] += 1;
 			return (sdl->selected_cmp[i].color);

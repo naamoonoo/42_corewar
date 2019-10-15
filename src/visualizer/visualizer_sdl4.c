@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   visualizer_sdl4.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 19:55:08 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/09/17 19:55:09 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 13:52:19 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/corewar.h"
 #include "../../include/visualizer.h"
+
+void			visualizer_sdl_silence(t_visualizer *gv)
+{
+	UNUSED(gv);
+}
 
 static void		initialize_gv_functions(t_visualizer *gv)
 {
@@ -28,6 +33,7 @@ static void		initialize_gv_functions(t_visualizer *gv)
 	gv->select_champs = &visualizer_sdl_select_champs;
 	gv->use_champs = &visualizer_sdl_use_champs;
 	gv->sleep = &visualizer_sdl_sleep;
+	gv->silence = &visualizer_sdl_silence;
 }
 
 t_visualizer	*visualizer_sdl_new(void)

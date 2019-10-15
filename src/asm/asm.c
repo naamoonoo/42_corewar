@@ -6,7 +6,7 @@
 /*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/17 20:46:55 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/22 15:46:48 by aderby           ###   ########.fr       */
+/*   Updated: 2019/09/27 17:29:51 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		assemble(char *file)
 
 	tree = NULL;
 	if (!extension_check(file, ".s"))
-		return (ft_error("The file must have the .cor extension\n", 0));
+		return (ft_error("The file must have the .s extension\n", 0));
 	INPUT = open(file, O_RDONLY);
 	if (INPUT <= 0)
 		return (ft_error("Unable to open <file>.s\n", 0));

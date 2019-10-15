@@ -6,11 +6,12 @@
 /*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/17 20:38:01 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/30 21:19:38 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 14:05:31 by aderby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm.h>
+#include <corewar.h>
 
 void	store_instruction_arg(t_tree **tree, char *str, int line_num, int type)
 {
@@ -44,22 +45,24 @@ void	fill_instruction_data(t_tree **tree, char **split, int line_num)
 
 	i = 0;
 	type = identify_instruction(split[0]);
-	if (type > 15)
+	if (type > MAX_OPS)
 		ft_exit("Invalid instruction\n", split, line_num);
 	(*tree)->operation = &g_op_tab[type];
 	(*tree)->instruction = type;
-	while (split[++i])
+	while (++i <= g_op_tab[type].param_num)
 		store_instruction_arg(tree, split[i], line_num, type);
 }
 
 void	parse_instruction(t_tree **tree, char **split, int line_num, int *fd)
 {
-	(void) fd; // TODO 
 	t_tree *nav;
 
+	(void)fd;
 	if (!*tree)
 		init_tree(tree, NULL, line_num);
 	nav = *tree;
+	if (!nav->left)
+		nav->left = create_branch(nav, "!noLabel", line_num);
 	while (nav->left)
 		nav = nav->left;
 	while (nav->right)

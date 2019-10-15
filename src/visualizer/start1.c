@@ -6,7 +6,7 @@
 /*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 03:27:18 by hnam              #+#    #+#             */
-/*   Updated: 2019/09/17 20:00:24 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/24 17:25:24 by hnam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ void	render_champs(t_sdl *sdl)
 
 	idx = -1;
 	while (++idx < NUM_OF_CHAMP && sdl->champs[sdl->page * 10 + idx])
-	{
 		sdl->curr_champs[idx] = sdl->champs[sdl->page * 10 + idx];
-	}
 	while (idx < NUM_OF_CHAMP)
 		sdl->curr_champs[idx++] = NULL;
 	idx = -1;
@@ -63,13 +61,15 @@ void	render_champs(t_sdl *sdl)
 	{
 		if (sdl->curr_champs[idx])
 		{
-			if ((len = 30 * ft_strlen(sdl->curr_champs[idx])) > 520)
-				len = 520;
+			len = get_small(520, 30 * ft_strlen(sdl->curr_champs[idx]));
 			sdl->champ_rect[idx] = (SDL_Rect){260, 570 + idx * 80, len, 40};
+			render_only_name(sdl, sdl->curr_champs[idx], &sdl->champ_rect[idx]);
 		}
 		else
+		{
 			sdl->champ_rect[idx] = (SDL_Rect){260, 570 + idx * 80, 0, 40};
-		render_only_name(sdl, sdl->curr_champs[idx], &sdl->champ_rect[idx]);
+			sdl->scr = NULL;
+		}
 		sdl->champ_tex[idx] = SDL_CreateTextureFromSurface(sdl->ren, sdl->scr);
 		SDL_FreeSurface(sdl->scr);
 	}

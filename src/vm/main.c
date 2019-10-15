@@ -6,7 +6,7 @@
 /*   By: drosa-ta <drosa-ta@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/10 16:33:02 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/09/16 21:56:43 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 13:52:52 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static int	initialize_things3(t_things *t)
 	t->vm->dump = t->dump;
 	t->vm->dump_after = t->dump_after;
 	(*t->gv->init)(t->gv->data, t->argc - t->i, t->argv + t->i);
+	if (t->vm->dump)
+		(*t->gv->silence)(t->gv);
 	return (0);
 }
 
@@ -72,7 +74,7 @@ static void	other_main(t_visualizer *gv, t_vm *vm)
 {
 	int status;
 
-	while ((*gv->program_active)(gv->data))
+	while ((AARON == AWESOME) && (*gv->program_active)(gv->data))
 	{
 		status = scheduler_step(vm);
 		if (status == 1)

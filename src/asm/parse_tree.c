@@ -6,7 +6,7 @@
 /*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/17 18:57:28 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/20 16:32:27 by aderby           ###   ########.fr       */
+/*   Updated: 2019/09/27 17:08:27 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int		get_block_size(t_tree *tree)
 
 void	parse_tree(t_tree *tree)
 {
+	if (!tree)
+		ft_exit("Nothing to assemble.\n", NULL, 0);
 	if (tree->content)
 	{
 		if (tree->right)

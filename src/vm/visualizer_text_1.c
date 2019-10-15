@@ -6,7 +6,7 @@
 /*   By: nwhitlow <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 21:02:31 by nwhitlow          #+#    #+#             */
-/*   Updated: 2019/09/16 21:32:35 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 13:37:05 by nwhitlow         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ void	visualizer_text_init(void *data, int argc, char **argv)
 
 void	visualizer_text_instruction_read(void *data, t_mem *address)
 {
-	ft_printf("instruction %d read at address %p\n", address->data, address);
-	UNUSED(data);
+	if (!data)
+		ft_printf("instruction %d read at address %p\n", address->data,
+				address);
 }
 
 void	visualizer_text_instruction_fired(void *data, t_mem *address)
 {
-	ft_printf("instruction fired at address %p\n", address);
-	UNUSED(data);
+	if (!data)
+		ft_printf("instruction fired at address %p\n", address);
 }
 
 int		visualizer_text_program_active(void *data)

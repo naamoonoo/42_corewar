@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   dasm.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: hnam <hnam@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 19:47:30 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/30 21:19:08 by nwhitlow         ###   ########.fr       */
+/*   Updated: 2019/09/27 13:13:43 by aderby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm.h>
 
-static int	output_name_check(char *input_file, char *output_name)
+int	output_name_check(char *input_file, char *output_name)
 {
 	char *ptr;
 
@@ -22,11 +22,10 @@ static int	output_name_check(char *input_file, char *output_name)
 	return (0);
 }
 
-static int	disassemble(int *fd, char c)
+int	disassemble(int *fd, char c)
 {
 	while (read(INPUT, &c, 1) > 0)
 	{
-		printf("input = %x\n", c);
 		if ((int)c > 0 && (int)c <= 16)
 		{
 			write(OUTPUT, g_op_tab[(int)c - 1].name,
@@ -48,7 +47,7 @@ static int	disassemble(int *fd, char c)
 	return (1);
 }
 
-static int	comment_name_get(int *fd)
+int	comment_name_get(int *fd)
 {
 	t_header	tmp;
 
@@ -68,7 +67,7 @@ static int	comment_name_get(int *fd)
 	return (1);
 }
 
-int			dasm(char *input_file, char *output_name, int *fd)
+int	dasm(char *input_file, char *output_name, int *fd)
 {
 	if (!extension_check(input_file, ".cor"))
 		return (ft_error("Invalid file type.\nLooking for <file>.cor\n", 0));

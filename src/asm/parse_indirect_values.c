@@ -6,7 +6,7 @@
 /*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/17 16:22:11 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/20 11:04:58 by aderby           ###   ########.fr       */
+/*   Updated: 2019/09/17 22:14:13 by aderby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ void	search_instruction_list(t_tree *tree, t_tree *instruction)
 
 void	parse_indirect_values(t_tree *tree)
 {
-	t_tree *nav;
-
-	nav = tree;
 	if (tree->content)
 		if (tree->right)
 			search_instruction_list(tree, tree->right);

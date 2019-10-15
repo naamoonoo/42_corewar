@@ -6,13 +6,13 @@
 /*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/17 18:51:12 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/20 16:29:20 by aderby           ###   ########.fr       */
+/*   Updated: 2019/09/27 13:10:25 by aderby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm.h>
 
-void	get_header_comment(t_header *header, t_tree *tree)
+void			get_header_comment(t_header *header, t_tree *tree)
 {
 	t_tree *nav;
 
@@ -33,7 +33,7 @@ void	get_header_comment(t_header *header, t_tree *tree)
 	}
 }
 
-void	get_header_name(t_header *header, t_tree *tree)
+void			get_header_name(t_header *header, t_tree *tree)
 {
 	t_tree *nav;
 
@@ -56,8 +56,8 @@ void	get_header_name(t_header *header, t_tree *tree)
 
 unsigned int	get_prog_size(t_tree *tree)
 {
-	t_tree			*nav;
-	int	prog_size;
+	t_tree	*nav;
+	int		prog_size;
 
 	nav = tree;
 	prog_size = 0;
@@ -69,7 +69,7 @@ unsigned int	get_prog_size(t_tree *tree)
 	return (prog_size);
 }
 
-void	write_comment_to_file(t_tree *tree, int *fd)
+void			write_comment_to_file(t_tree *tree, int *fd)
 {
 	t_header	header;
 	t_tree		*nav;

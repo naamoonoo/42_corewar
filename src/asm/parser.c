@@ -6,7 +6,7 @@
 /*   By: aderby <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/17 20:35:22 by aderby            #+#    #+#             */
-/*   Updated: 2019/08/22 15:19:31 by aderby           ###   ########.fr       */
+/*   Updated: 2019/09/18 19:01:37 by aderby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		identify_line(char *line)
 	char	*str;
 
 	str = remove_front_spaces(line);
-	if (str[0] == COMMENT_CHAR)
+	if (ft_strlen(str) == 0 || str[0] == COMMENT_CHAR)
 		return (NULL_FUNCTION);
 	if (ft_strnequ(str, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)) ||
 			ft_strnequ(str, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
@@ -52,8 +52,11 @@ void	parser(int *fd, t_tree **tree, int line_num)
 		line_num++;
 		if (ft_strlen(line))
 		{
-			split = ft_strsplits(line, white_space);
 			function = identify_line(line);
+			if (function == NAME_COMMENT_FUNCTION)
+				split = ft_strsplits(line, COMMENT_DELIMS);
+			else
+				split = ft_strsplits(line, white_space);
 			if (g_parse_function[function])
 				g_parse_function[function](tree, split, line_num, fd);
 			ft_free_split_string(split);
