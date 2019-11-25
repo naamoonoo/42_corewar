@@ -1,18 +1,8 @@
 # Corewar
 
-Corewar is a School 42 project. The purpose of this project is an implementation of the programming game **“Core War”**.
+Corewar is a School 42 project. The purpose of this project is an implementation of the programming game **[“Core War”](https://www.corewars.org/)**. This game's goal is occupying more memory space by competeting with other players. Each champion has own scenario to win the game, and virtual machine takes player and schedule their play strategy. Their scenario is written in assembly code, [Redcode](https://en.wikibooks.org/wiki/Core_War/Redcode), which is needed to assemble to bytecode.
 
-<!-- ![Corewar](/wiki_resources/corewar.svg) -->
-
-[corewar.en.pdf](/corewar.en.pdf) is the task file.
-
-<!-- Task resources is placed at [the `task_resources` folder](/task_resources/). -->
-
-## Wiki
-
-This project has an 8-page guide. The guide was written **in Russian**.
-
-You can read it [at the wiki-pages](../../wiki/).
+[corewar.en.pdf](/resources/corewar.en.pdf) is the task file. [epitech_version](/resources/corewar.epitech.pdf) has much detailed instruction.
 
 ## Project Structure
 
@@ -24,18 +14,16 @@ This project consists of five parts:
 * Virtual Machine
 * Visualizer (Bonus)
 
-Project has three developed champions: `amedvedi.s`, `wasp.s`, `kalle.s`. They are located at [the `champions` directory](/champions/).
-
 Assembler + Disassembler are modules of the program `asm`.
 
 Virtual Machine + Visualizer are modules of the program `corewar`.
 
 ## How to clone?
 
-This repository includes submodule. So if you want to clone it, you can use the following command:
+you can use the following command:
 
 ```
-git clone --recurse-submodules <repository url>
+git clone <repository url>
 ```
 
 ## Installation
@@ -51,7 +39,7 @@ make
 ### `asm`
 
 ```
-Usage: ./asm (champion.s|champion.cor)
+Usage: ./asm | [-d file.cor] | file.s
     champion.s   — from assemble to bytecode
     champion.cor — from bytecode to assemble
 ```
@@ -59,24 +47,15 @@ Usage: ./asm (champion.s|champion.cor)
 ### `corewar`
 
 ```
-Usage: ./corewar [-a (-dump|-d) <num> (-shed|-s) <num> -l <num>] [-v] [-n <num>] <champion.cor> <...>
-    -a          : Print output from "aff" (Default is off)
+usage: ./corewar [-v text | SDL][-dump nbr_cycles] [[-n number] champion1.cor] ...
+    -v          : visualizer with text or SDL
     -dump <num> : Dump memory (32 octets per line) after <num> cycles and exit
-    -d    <num> : Dump memory (64 octets per line) after <num> cycles and exit
-    -show <num> : Run <num> cycles, dump memory (32 octets per line), pause and repeat
-    -s    <num> : Run <num> cycles, dump memory (64 octets per line), pause and repeat
-    -l    <num> : Log levels
-                   1  : Show lives
-                   2  : Show cycles
-                   4  : Show operations
-                   8  : Show deaths
-                   16 : Show PC movements
-    -v          : Run visualizer
     -n    <num> : Set <num> of the next player
+    -champion   : lot's of champions has each scenario to occupy more memory with defeating each other
 ```
 
 ## Visualizer
 
-The best visualizer performance is with **iTerm2**.
+Visualizer is made up of [SDL2](https://www.libsdl.org/download-2.0.php) graphic library
 
 ![Visualizer](/resources/corewar.gif)
