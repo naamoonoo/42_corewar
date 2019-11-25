@@ -2,8 +2,8 @@ CC=gcc
 CFLAGS=-Wall -Wextra -Werror
 RM=rm -rf
 
-VISU_LIB=-L ~/.brew/Cellar/sdl2/2.0.9_1/lib -l SDL2-2.0.0 -L ~/.brew/Cellar/sdl2_ttf/2.0.15/lib -l SDL2_ttf-2.0.0
-VISU_INCLUDE=-Iincludes -I $(HOME)/.brew/Cellar/sdl2/2.0.9_1/include/SDL2 -I $(HOME)/.brew/Cellar/sdl2_ttf/2.0.15/include/SDL2
+VISU_LIB=-L /usr/local/Cellar/sdl2/2.0.10/lib -l SDL2-2.0.0 -L /usr/local/Cellar/sdl2_ttf/2.0.15/lib -l SDL2_ttf-2.0.0
+VISU_INCLUDE=-Iincludes -I /usr/local/Cellar/sdl2/2.0.10/include/SDL2 -I /usr/local/Cellar/sdl2_ttf/2.0.15/include/SDL2
 
 SRC_DIR=src/
 BIN_DIR=bin/
@@ -76,7 +76,7 @@ $(TEST_OBJS): $(BIN_DIR)test_%.o: $(TEST_DIR)%.c | $(BIN_DIR)
 
 ################ TESTING (DEPRECATED) ################
 #
-#CHECKPATH=~/.brew/Cellar/check/0.12.0/
+#CHECKPATH=/usr/local/Cellar/check/0.12.0/
 #
 #$(BIN_DIR)check_all.o: $(TEST_DIR)check_all.c | $(BIN_DIR)
 #	mkdir -p $(BIN_DIR)
