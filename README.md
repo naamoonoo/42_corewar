@@ -79,4 +79,4 @@ Usage: ./corewar [-a (-dump|-d) <num> (-shed|-s) <num> -l <num>] [-v] [-n <num>]
 
 The best visualizer performance is with **iTerm2**.
 
-![Visualizer](/wiki_resources/corewar.gif)
+![Visualizer](/resources/corewar.gif)
