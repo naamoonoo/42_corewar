@@ -2,8 +2,10 @@ CC=gcc
 CFLAGS=-Wall -Wextra -Werror
 RM=rm -rf
 
-VISU_LIB=-L /usr/local/Cellar/sdl2/2.0.10/lib -l SDL2-2.0.0 -L /usr/local/Cellar/sdl2_ttf/2.0.15/lib -l SDL2_ttf-2.0.0
-VISU_INCLUDE=-Iincludes -I /usr/local/Cellar/sdl2/2.0.10/include/SDL2 -I /usr/local/Cellar/sdl2_ttf/2.0.15/include/SDL2
+# VISU_LIB=-L /usr/local/Cellar/sdl2/2.0.10/lib -l SDL2-2.0.0 -L /usr/local/Cellar/sdl2_ttf/2.0.15/lib -l SDL2_ttf-2.0.0
+# VISU_INCLUDE=-Iincludes -I /usr/local/Cellar/sdl2/2.0.10/include/SDL2 -I /usr/local/Cellar/sdl2_ttf/2.0.15/include/SDL2
+VISU_LIB=-L frameworks/SDL2.framework/lib -l SDL2 -L frameworks/SDL2_ttf.framework/lib -l SDL2_ttf
+VISU_INCLUDE=-Iincludes -Iframeworks/SDL2.framework/includes/SDL2 -Iframeworks/SDL2_ttf.framework/includes
 
 SRC_DIR=src/
 BIN_DIR=bin/
